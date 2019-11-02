@@ -17,7 +17,7 @@ const cardsSlice = createSlice({
         },
         deleteCard: {
             reducer(state, action) {
-                state = state.filter(card => card.id !== action.payload.id)
+                return state.filter(card => card.id !== parseInt(action.payload.id))
             }
         }
     }
