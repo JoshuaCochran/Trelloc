@@ -1,7 +1,19 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addCard } from "./cardsSlice";
-import "./Cards.css";
+
+const labelStyle = {
+  display: "inline-block",
+  float: "left",
+  clear: "left",
+  width: "250px",
+  textAlign: "right"
+};
+
+const inputStyle = {
+  display: "inlineBlock",
+  float: "left"
+};
 
 const mapDispatch = { addCard };
 
@@ -13,40 +25,41 @@ const AddCard = ({ addCard }) => {
   const onChangeDescription = e => setCardDescription(e.target.value);
 
   return (
-    <div id="container">
-      <form
-        class="box"
-        onSubmit={e => {
-          e.preventDefault();
-          if (!cardTitle.trim()) {
-            return;
-          }
-          addCard(cardTitle, cardDescription);
-          setCardTitle("");
-          setCardDescription("");
-        }}
-      >
-        <div>
-          <span>Title:</span>
-          <input
-            value={cardTitle}
-            onChange={onChangeTitle}
-            style={{ marginLeft: "4px" }}
-          />
-        </div>
-        <div>
-          <span>Description:</span>
-          <input
-            value={cardDescription}
-            onChange={onChangeDescription}
-            style={{ marginLeft: "4px" }}
-          />
-        </div>
+    <form
+      onSubmit={e => {
+        e.preventDefault();
+        if (!cardTitle.trim()) {
+          return;
+        }
+        addCard(cardTitle, cardDescription);
+        setCardTitle("");
+        setCardDescription("");
+      }}
+    >
+      <div>
+        <label style={labelStyle}>Title:</label>
+        <input
+          style={inputStyle}
+          value={cardTitle}
+          onChange={onChangeTitle}
+          type="text"
+          style={{ marginLeft: "4px" }}
+        />
+      </div>
+      <div>
+        <label style={labelStyle}>Description:</label>
+        <input
+          style={inputStyle}
+          value={cardDescription}
+          onChange={onChangeDescription}
+          type="text"
+          style={{ marginLeft: "4px" }}
+        />
         <button type="submit" style={{ marginLeft: "4px" }}>
           Add Card
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

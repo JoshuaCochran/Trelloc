@@ -2,6 +2,19 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { deleteCard } from "./cardsSlice";
 
+const labelStyle = {
+  display: "inline-block",
+  float: "left",
+  clear: "left",
+  width: "250px",
+  textAlign: "right"
+};
+
+const inputStyle = {
+  display: "inlineBlock",
+  float: "left"
+};
+
 const mapDispatch = { deleteCard };
 
 const DeleteCard = ({ deleteCard }) => {
@@ -10,8 +23,7 @@ const DeleteCard = ({ deleteCard }) => {
   const onChange = e => setId(e.target.value);
 
   return (
-    <div
-    >
+    <div>
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -22,8 +34,9 @@ const DeleteCard = ({ deleteCard }) => {
           setId("");
         }}
       >
-        <span>Id: </span>
+        <label style={labelStyle}>Id: </label>
         <input
+          style={inputStyle}
           type="number"
           value={id}
           onChange={onChange}
