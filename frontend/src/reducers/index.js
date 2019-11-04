@@ -1,6 +1,8 @@
-import { combineReducers } from 'redux'
-import cardsReducer from '../features/cards/cardsSlice'
+import { combineReducers } from "redux";
+import cardsReducer from "../features/cards/cardsSlice";
+import boardsReducer from "../features/boards/boardsSlice";
 
 export default combineReducers({
-    cards: cardsReducer,
-})
+  cards: cardsReducer,
+  boards: boardsReducer,
+});

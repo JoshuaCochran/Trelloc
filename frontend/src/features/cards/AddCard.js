@@ -18,9 +18,11 @@ const inputStyle = {
 const mapDispatch = { addCard };
 
 const AddCard = ({ addCard }) => {
+  const [boardId, setBoardId] = useState("");
   const [cardTitle, setCardTitle] = useState("");
   const [cardDescription, setCardDescription] = useState("");
 
+  const onChangeBoardId = e => setBoardId(e.target.value);
   const onChangeTitle = e => setCardTitle(e.target.value);
   const onChangeDescription = e => setCardDescription(e.target.value);
 
@@ -28,14 +30,25 @@ const AddCard = ({ addCard }) => {
     <form
       onSubmit={e => {
         e.preventDefault();
-        if (!cardTitle.trim()) {
+        if (!cardTitle.trim() || !boardId.trim()) {
           return;
         }
-        addCard(cardTitle, cardDescription);
+        addCard(boardId, cardTitle, cardDescription);
+        setBoardId("");
         setCardTitle("");
         setCardDescription("");
       }}
     >
+      <div>
+        <label style={labelStyle}>Board Id:</label>
+        <input
+          style={inputStyle}
+          value={boardId}
+          onChange={onChangeBoardId}
+          type="text"
+          style={{ marginLeft: "4px" }}
+        />
+      </div>
       <div>
         <label style={labelStyle}>Title:</label>
         <input

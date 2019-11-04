@@ -5,7 +5,7 @@ import Card from "./Card";
 
 const CardList = ({ cards }) => (
   <div>
-    {cards.map(card => (
+    {Object.values(cards).map(card => (
       <Card key={card.id} {...card} />
     ))}
   </div>
@@ -15,7 +15,9 @@ const mapStateToProps = state => ({
   cards: state.cards
 });
 
-export default connect(
+/*export default connect(
   mapStateToProps,
   null
-)(CardList);
+)(CardList);*/
+
+export default CardList;
