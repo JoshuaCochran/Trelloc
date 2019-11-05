@@ -12,7 +12,14 @@ const labelStyle = {
 
 const inputStyle = {
   display: "inlineBlock",
-  float: "left"
+  float: "left",
+  marginLeft: "4px"
+};
+
+const buttonStyle = {
+  display: "inlineBlock",
+  float: "left",
+  marginLeft: "4px"
 };
 
 const mapDispatch = { addCard };
@@ -39,39 +46,30 @@ const AddCard = ({ addCard }) => {
         setCardDescription("");
       }}
     >
-      <div>
-        <label style={labelStyle}>Board Id:</label>
-        <input
-          style={inputStyle}
-          value={boardId}
-          onChange={onChangeBoardId}
-          type="text"
-          style={{ marginLeft: "4px" }}
-        />
-      </div>
-      <div>
-        <label style={labelStyle}>Title:</label>
-        <input
-          style={inputStyle}
-          value={cardTitle}
-          onChange={onChangeTitle}
-          type="text"
-          style={{ marginLeft: "4px" }}
-        />
-      </div>
-      <div>
-        <label style={labelStyle}>Description:</label>
-        <input
-          style={inputStyle}
-          value={cardDescription}
-          onChange={onChangeDescription}
-          type="text"
-          style={{ marginLeft: "4px" }}
-        />
-        <button type="submit" style={{ marginLeft: "4px" }}>
-          Add Card
-        </button>
-      </div>
+      <label style={labelStyle}>Board Id:</label>
+      <input
+        style={inputStyle}
+        value={boardId}
+        onChange={onChangeBoardId}
+        type="text"
+      />
+      <label style={labelStyle}>Title:</label>
+      <input
+        style={inputStyle}
+        value={cardTitle}
+        onChange={onChangeTitle}
+        type="text"
+      />
+      <label style={labelStyle}>Description:</label>
+      <input
+        style={inputStyle}
+        value={cardDescription}
+        onChange={onChangeDescription}
+        type="text"
+      />
+      <button type="submit" style={buttonStyle}>
+        Add Card
+      </button>
     </form>
   );
 };

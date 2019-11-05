@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import Card from "./Card";
 
 const CardList = ({ cards }) => (
@@ -10,14 +8,5 @@ const CardList = ({ cards }) => (
     ))}
   </div>
 );
-
-const mapStateToProps = state => ({
-  cards: state.cards
-});
-
-/*export default connect(
-  mapStateToProps,
-  null
-)(CardList);*/
 
 export default CardList;

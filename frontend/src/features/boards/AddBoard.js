@@ -12,7 +12,8 @@ const labelStyle = {
 
 const inputStyle = {
   display: "inlineBlock",
-  float: "left"
+  float: "left",
+  marginLeft: "4px"
 };
 
 const mapDispatch = { addBoard };
@@ -40,7 +41,6 @@ const AddBoard = ({ addBoard }) => {
           value={title}
           onChange={onChange}
           type="text"
-          style={{ marginLeft: "4px" }}
         />
         <button type="submit" style={{ marginLeft: "4px" }}>
           Add Board

@@ -12,7 +12,14 @@ const labelStyle = {
 
 const inputStyle = {
   display: "inlineBlock",
-  float: "left"
+  float: "left",
+  marginLeft: "4px"
+};
+
+const buttonStyle = {
+  display: "inlineBlock",
+  float: "left",
+  marginLeft: "4px"
 };
 
 const mapDispatch = { deleteCard };
@@ -40,9 +47,8 @@ const DeleteCard = ({ deleteCard }) => {
           type="number"
           value={id}
           onChange={onChange}
-          style={{ marginLeft: "4px" }}
         />
-        <button type="submit" style={{ marginLeft: "4px" }}>
+        <button type="submit" style={buttonStyle}>
           Delete Card
         </button>
       </form>
