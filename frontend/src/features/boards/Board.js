@@ -19,6 +19,7 @@ const Board = ({ title, cards }) => (
     <div style={containerStyle}>
       <h4>{title}</h4>
       <CardList cards={cards} />
+      <button>Add another card</button>
     </div>
   </div>
 );
