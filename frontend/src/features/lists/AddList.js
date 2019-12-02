@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addBoard } from "./boardsSlice";
+import { addList } from "./listsSlice";
 
 const labelStyle = {
   display: "inline-block",
@@ -16,9 +16,9 @@ const inputStyle = {
   marginLeft: "4px"
 };
 
-const mapDispatch = { addBoard };
+const mapDispatch = { addList };
 
-const AddBoard = ({ addBoard }) => {
+const AddList = ({ addList }) => {
   const [title, setTitle] = useState("");
 
   const onChange = e => setTitle(e.target.value);
@@ -30,7 +30,7 @@ const AddBoard = ({ addBoard }) => {
         if (!title.trim()) {
           return;
         }
-        addBoard(title);
+        addList(title);
         setTitle("");
       }}
     >
@@ -43,7 +43,7 @@ const AddBoard = ({ addBoard }) => {
           type="text"
         />
         <button type="submit" style={{ marginLeft: "4px" }}>
-          Add Board
+          Add List
         </button>
       </div>
     </form>
@@ -53,4 +53,4 @@ const AddBoard = ({ addBoard }) => {
 export default connect(
   null,
   mapDispatch
-)(AddBoard);
+)(AddList);

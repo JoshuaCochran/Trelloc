@@ -25,11 +25,11 @@ const buttonStyle = {
 const mapDispatch = { addCard };
 
 const AddCard = ({ addCard }) => {
-  const [boardId, setBoardId] = useState("");
+  const [listId, setListId] = useState("");
   const [cardTitle, setCardTitle] = useState("");
   const [cardDescription, setCardDescription] = useState("");
 
-  const onChangeBoardId = e => setBoardId(e.target.value);
+  const onChangeListId = e => setListId(e.target.value);
   const onChangeTitle = e => setCardTitle(e.target.value);
   const onChangeDescription = e => setCardDescription(e.target.value);
 
@@ -37,20 +37,20 @@ const AddCard = ({ addCard }) => {
     <form
       onSubmit={e => {
         e.preventDefault();
-        if (!cardTitle.trim() || !boardId.trim()) {
+        if (!cardTitle.trim() || !listId.trim()) {
           return;
         }
-        addCard(boardId, cardTitle, cardDescription);
-        setBoardId("");
+        addCard(listId, cardTitle, cardDescription);
+        setListId("");
         setCardTitle("");
         setCardDescription("");
       }}
     >
-      <label style={labelStyle}>Board Id:</label>
+      <label style={labelStyle}>List Id:</label>
       <input
         style={inputStyle}
-        value={boardId}
-        onChange={onChangeBoardId}
+        value={listId}
+        onChange={onChangeListId}
         type="text"
       />
       <label style={labelStyle}>Title:</label>

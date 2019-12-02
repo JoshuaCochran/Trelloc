@@ -1,6 +1,6 @@
 import React  from "react";
 import { connect } from "react-redux";
-import Board from "./Board";
+import List from "./List";
 
 const wrapperStyle = {
   width: "100%",
@@ -10,19 +10,20 @@ const wrapperStyle = {
 
 const wrapperDiv = {
   flex: "1 1 150px",
-  marginTop: "5px"
+  marginTop: "5px",
+  marginLeft: "10px"
 };
 
-const BoardList = ({ boards, cards }) => {
+const ListList = ({ lists, cards }) => {
   return (
     <div style={wrapperStyle}>
-      {Object.values(boards).map((board, i) => (
+      {Object.values(lists).map((list, i) => (
         <div style={wrapperDiv}>
-          <Board
-            key={board.id}
-            {...board}
+          <List
+            key={list.id}
+            {...list}
             cards={Object.values(cards).filter(
-              card => parseInt(card.boardId) === board.id
+              card => parseInt(card.listId) === list.id
             )}
           />
         </div>
@@ -32,11 +33,11 @@ const BoardList = ({ boards, cards }) => {
 };
 
 const mapStateToProps = state => ({
-  boards: state.boards,
+  lists: state.lists,
   cards: state.cards
 });
 
 export default connect(
   mapStateToProps,
   null
-)(BoardList);
+)(ListList);

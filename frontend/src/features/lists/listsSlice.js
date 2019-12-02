@@ -2,11 +2,11 @@ import { createSlice } from 'redux-starter-kit'
 
 let nextCardId = 0
 
-const boardsSlice = createSlice({
-    name: 'boards',
+const listsSlice = createSlice({
+    name: 'lists',
     initialState: {},
     reducers: {
-        addBoard: {
+        addList: {
             reducer(state, action) {
                 const { id, title } = action.payload
                 state[id] = { id, title }
@@ -15,7 +15,7 @@ const boardsSlice = createSlice({
                 return { payload: {title, id: nextCardId++ }}
             }
         },
-        deleteBoard: {
+        deleteList: {
             reducer(state, action) {
                 delete state[action.payload.id]
             }
@@ -23,6 +23,6 @@ const boardsSlice = createSlice({
     }
 })
 
-export const { addBoard, deleteBoard } = boardsSlice.actions
+export const { addList, deleteList } = listsSlice.actions
 
-export default boardsSlice.reducer
+export default listsSlice.reducer

@@ -8,11 +8,11 @@ const cardsSlice = createSlice({
   reducers: {
     addCard: {
       reducer(state, action) {
-        const { id, boardId, title, description } = action.payload;
-        state[id] = { id, boardId, title, description };
+        const { id, listId, title, description } = action.payload;
+        state[id] = { id, listId, title, description };
       },
-      prepare(boardId, title, description) {
-        return { payload: { boardId, title, description, id: nextCardId++ } };
+      prepare(listId, title, description) {
+        return { payload: { listId, title, description, id: nextCardId++ } };
       }
     },
     deleteCard: {
