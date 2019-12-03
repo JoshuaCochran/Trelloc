@@ -1,19 +1,15 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addList } from "./listsSlice";
-import { Button } from "antd";
-
-const inputStyle = {
-  display: "inlineBlock",
-  float: "left",
-  marginLeft: "4px"
-};
+import { Form, Input, Button } from "antd";
 
 const buttonStyle = {
-  display: "inlineBlock",
-  float: "left",
-  marginLeft: "4px"
+  marginLeft: "8px"
 };
+
+const formStyle = {
+    marginLeft: "8px"
+}
 
 const mapDispatch = { addList };
 
@@ -25,7 +21,8 @@ const AddListButton = ({ addList }) => {
 
   if (showingInput)
     return (
-      <form
+      <Form
+        layout="inline"
         onSubmit={e => {
           e.preventDefault();
           if (!listTitle.trim()) return;
@@ -33,22 +30,25 @@ const AddListButton = ({ addList }) => {
           setListTitle("");
           setShowingInput(false);
         }}
+        style={formStyle}
       >
-        <input
-          style={inputStyle}
-          value={listTitle}
-          onChange={onChange}
-          type="text"
-          placeholder="Enter a list title..."
-        />
-        <Button htmlType="submit" style={buttonStyle}>
-          Add List
-        </Button>
-      </form>
+        <Form.Item>
+          <Input
+            value={listTitle}
+            onChange={onChange}
+            type="text"
+            placeholder="Enter a list title..."
+            autoFocus={true}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" style={buttonStyle}>Add List</Button>
+        </Form.Item>
+      </Form>
     );
   else
     return (
-      <Button onClick={() => setShowingInput(true)}>
+      <Button onClick={() => setShowingInput(true)} style={buttonStyle}>
         Add List
       </Button>
     );

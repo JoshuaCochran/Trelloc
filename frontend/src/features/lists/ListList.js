@@ -1,33 +1,27 @@
-import React  from "react";
+import React from "react";
 import { connect } from "react-redux";
 import List from "./List";
+import AddListButton from "./AddListButton";
 
-const wrapperStyle = {
-  width: "100%",
+const scrollingWrapper = {
   display: "flex",
-  flexWrap: "wrap"
-};
-
-const wrapperDiv = {
-  flex: "1 1 150px",
-  marginTop: "5px",
-  marginLeft: "10px"
+  overflowX: "auto",
+  flexWrap: "nowrap"
 };
 
 const ListList = ({ lists, cards }) => {
   return (
-    <div style={wrapperStyle}>
+    <div style={scrollingWrapper}>
       {Object.values(lists).map((list, i) => (
-        <div style={wrapperDiv}>
-          <List
-            key={list.id}
-            {...list}
-            cards={Object.values(cards).filter(
-              card => parseInt(card.listId) === list.id
-            )}
-          />
-        </div>
+        <List
+          key={list.id}
+          {...list}
+          cards={Object.values(cards).filter(
+            card => parseInt(card.listId) === list.id
+          )}
+        />
       ))}
+      <AddListButton/>
     </div>
   );
 };
@@ -37,7 +31,4 @@ const mapStateToProps = state => ({
   cards: state.cards
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(ListList);
+export default connect(mapStateToProps, null)(ListList);

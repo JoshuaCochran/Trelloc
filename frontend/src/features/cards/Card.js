@@ -3,12 +3,7 @@ import PropTypes from "prop-types";
 import { Card } from "antd";
 
 const cardStyle = {
-  boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-  transition: "0.3s",
-  borderRadius: "5px",
-  width: "200px",
-  marginLeft: "10px",
-  backgroundColor: "white"
+  borderRadius: "3px"
 };
 
 const containerStyle = {
@@ -16,7 +11,7 @@ const containerStyle = {
 };
 
 const Card = ({ title, description }) => (
-    <Card title={title}></Card>
+    <Card title={title} style={cardStyle}></Card>
 );
 
 Card.propTypes = {

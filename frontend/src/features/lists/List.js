@@ -4,8 +4,11 @@ import AddCardButton from "../cards/AddCardButton";
 import { Card } from "antd";
 
 const cardStyle = {
-  width: "200px",
-  backgroundColor: "rgb(235, 236, 240)"
+  width: "272px",
+  backgroundColor: "rgb(235, 236, 240)",
+  flex: "0 0 auto",
+  marginLeft: "8px",
+  borderRadius: "3px"
 };
 
 const containerStyle = {
@@ -25,9 +28,12 @@ const buttonStyle = {
 };
 
 const List = ({ id, title, cards }) => (
-  <Card title={title} style={cardStyle}>
+  <Card
+    title={title}
+    style={cardStyle}
+    actions={[<AddCardButton listId={id}>Add another card</AddCardButton>]}
+  >
     <CardList cards={cards} />
-    <AddCardButton listId={id}>Add another card</AddCardButton>
   </Card>
 );
 

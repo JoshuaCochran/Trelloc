@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addCard } from "./cardsSlice";
-import { Button } from "antd";
+import { Form, Icon, Input, Button } from "antd";
 
 const inputStyle = {
-  display: "inlineBlock",
-  float: "left",
-  marginLeft: "4px"
 };
 
 const buttonStyle = {
-  display: "inlineBlock",
-  float: "left",
-  marginLeft: "4px"
+
 };
 
 const mapDispatch = { addCard };
@@ -25,7 +20,8 @@ const AddCardButton = ({ addCard, listId }) => {
 
   if (showingInput)
     return (
-      <form
+      <Form
+        layout="inline"
         onSubmit={e => {
           e.preventDefault();
           if (!cardTitle.trim()) return;
@@ -34,22 +30,27 @@ const AddCardButton = ({ addCard, listId }) => {
           setShowingInput(false);
         }}
       >
-        <input
-          style={inputStyle}
-          value={cardTitle}
-          onChange={onChange}
-          type="text"
-          placeholder="Enter a title for this card..."
-        />
-        <Button htmlType="submit" style={buttonStyle} block>
-          Add Card
-        </Button>
-      </form>
+        <Form.Item>
+          <Input
+            style={inputStyle}
+            value={cardTitle}
+            onChange={onChange}
+            type="text"
+            placeholder="Enter a title for this card..."
+            autoFocus={true}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button htmlType="submit" style={buttonStyle} block>
+            Add Card
+          </Button>
+        </Form.Item>
+      </Form>
     );
   else
     return (
-      <Button block onClick={() => setShowingInput(true)}>
-        Add another card
+      <Button block onClick={() => setShowingInput(true)} style={{textAlign: "left"}}>
+        <Icon type="plus" />Add another card
       </Button>
     );
 };
