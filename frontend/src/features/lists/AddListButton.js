@@ -4,12 +4,14 @@ import { addList } from "./listsSlice";
 import { Form, Input, Button } from "antd";
 
 const buttonStyle = {
-  marginLeft: "8px"
+  marginLeft: "8px",
+  minHeight: "38px",
+  maxHeight: "38px"
 };
 
 const formStyle = {
-    marginLeft: "8px"
-}
+  marginLeft: "8px"
+};
 
 const mapDispatch = { addList };
 
@@ -42,7 +44,9 @@ const AddListButton = ({ addList }) => {
           />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" style={buttonStyle}>Add List</Button>
+          <Button htmlType="submit" style={buttonStyle}>
+            Add List
+          </Button>
         </Form.Item>
       </Form>
     );

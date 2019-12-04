@@ -1,13 +1,42 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addCard } from "./cardsSlice";
-import { Form, Icon, Input, Button } from "antd";
+import { Form, Input, Button } from "antd";
 
 const inputStyle = {
+  maxHeight: "162px",
+  minHeight: "54px"
 };
 
-const buttonStyle = {
+const buttonContainer = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "flex-start",
+  alignContent: "center"
+};
 
+const submitButtonStyle = {
+  minHeight: "38px",
+  maxHeight: "38px",
+  backgroundColor: "#5aac44",
+  color: "white"
+};
+
+const closeButtonStyle = {
+  borderColor: "#ebecf0",
+  color: "#5e6c84",
+  textAlign: "left",
+  boxShadow: "none",
+  height: "38px",
+  width: "38px",
+  minWidth: "38px"
+};
+
+const addButtonStyle = {
+  borderColor: "#ebecf0",
+  color: "#5e6c84",
+  textAlign: "left",
+  boxShadow: "none"
 };
 
 const mapDispatch = { addCard };
@@ -30,27 +59,42 @@ const AddCardButton = ({ addCard, listId }) => {
           setShowingInput(false);
         }}
       >
-        <Form.Item>
-          <Input
+        <Form.Item style={{ width: "100%" }}>
+          <Input.TextArea
             style={inputStyle}
             value={cardTitle}
             onChange={onChange}
             type="text"
             placeholder="Enter a title for this card..."
             autoFocus={true}
+            autoSize={true}
           />
         </Form.Item>
         <Form.Item>
-          <Button htmlType="submit" style={buttonStyle} block>
-            Add Card
-          </Button>
+          <div style={buttonContainer}>
+            <Button htmlType="submit" style={submitButtonStyle} block>
+              Add Card
+            </Button>
+            <Button
+              ghost={true}
+              onClick={() => setShowingInput(false)}
+              style={closeButtonStyle}
+              icon="close"
+            />
+          </div>
         </Form.Item>
       </Form>
     );
   else
     return (
-      <Button block onClick={() => setShowingInput(true)} style={{textAlign: "left"}}>
-        <Icon type="plus" />Add another card
+      <Button
+        block
+        ghost={true}
+        onClick={() => setShowingInput(true)}
+        style={addButtonStyle}
+        icon="plus"
+      >
+        Add another card
       </Button>
     );
 };
