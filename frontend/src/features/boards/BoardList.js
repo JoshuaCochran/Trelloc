@@ -1,20 +1,48 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Button, Icon } from "antd";
-import Board from "./Board";
+import { Icon } from "antd";
 import AddBoardButton from "./AddBoardButton";
-import BoardButton from "./BoardButton"
+import BoardButton from "./BoardButton";
+
+const headerStyle = {
+  color: "white",
+  fontSize: "24px",
+  lineHeight: "20px",
+  fontWeight: 400,
+}
+
+const buttonContainerStyle = {
+  display: "flex",
+  flexWrap: "wrap",
+  flexGrow: 1,
+  minHeight: "100%",
+  width: "100%"
+};
+
+const buttonStyle = {
+  width: "calc(50% - 4px)",
+  marginRight: "4px",
+  marginBottom: "4px",
+}
 
 const BoardList = ({ boards }) => {
   return (
     <div>
       <div>
-        <Icon type="user" /> Personal Boards
+        <p style={headerStyle}>
+          <Icon type="user" /> Personal Boards
+        </p>
       </div>
-      {Object.values(boards).map((board, i) => (
-        <BoardButton key={board.id} {...board} />
-      ))}
-      <AddBoardButton />
+      <div style={buttonContainerStyle}>
+        {Object.values(boards).map((board, i) => (
+          <div style={buttonStyle}>
+            <BoardButton key={board.id} {...board} />
+          </div>
+        ))}
+        <div style={buttonStyle}>
+          <AddBoardButton />
+        </div>
+      </div>
     </div>
   );
 };

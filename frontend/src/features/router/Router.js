@@ -1,6 +1,5 @@
 import React from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
-import ListList from "../lists/ListList";
 import Board from "../boards/Board";
 import BoardList from "../boards/BoardList"
 
