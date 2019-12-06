@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { configureStore } from "redux-starter-kit";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import "./css/index.css";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
@@ -13,7 +14,9 @@ const store = configureStore({
 
 render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );

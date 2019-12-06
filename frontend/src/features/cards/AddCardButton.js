@@ -77,7 +77,10 @@ const AddCardButton = ({ addCard, listId }) => {
             </Button>
             <Button
               ghost={true}
-              onClick={() => setShowingInput(false)}
+              onClick={() => {
+                setShowingInput(false);
+                setCardTitle("");
+              }}
               style={closeButtonStyle}
               icon="close"
             />

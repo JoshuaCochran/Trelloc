@@ -3,7 +3,6 @@ import { Card } from "antd";
 
 const cardStyle = {
   borderRadius: "3px",
-  padding: "6px 8px 2px",
   zIndex: 10,
   boxShadow: "0 1px 0 rgba(9, 30, 66, .25)",
   marginBottom: "8px",

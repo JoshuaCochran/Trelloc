@@ -6,7 +6,14 @@ import { Form, Input, Button } from "antd";
 const buttonStyle = {
   marginLeft: "8px",
   minHeight: "38px",
-  maxHeight: "38px"
+  maxHeight: "38px",
+  backgroundColor: "hsla(0, 0%, 100%, .24)",
+  color: "white",
+  borderColor: "transparent",
+  width: "272px",
+  display: "flex",
+  justifyContent: "flex-start",
+  maxWidth: "272px"
 };
 
 const formStyle = {
@@ -15,7 +22,7 @@ const formStyle = {
 
 const mapDispatch = { addList };
 
-const AddListButton = ({ addList }) => {
+const AddListButton = ({ addList, boardId }) => {
   const [showingInput, setShowingInput] = useState(false);
   const [listTitle, setListTitle] = useState("");
 
@@ -28,7 +35,7 @@ const AddListButton = ({ addList }) => {
         onSubmit={e => {
           e.preventDefault();
           if (!listTitle.trim()) return;
-          addList(listTitle);
+          addList(boardId, listTitle);
           setListTitle("");
           setShowingInput(false);
         }}
@@ -52,8 +59,12 @@ const AddListButton = ({ addList }) => {
     );
   else
     return (
-      <Button onClick={() => setShowingInput(true)} style={buttonStyle}>
-        Add List
+      <Button
+        onClick={() => setShowingInput(true)}
+        style={buttonStyle}
+        icon="plus"
+      >
+        Add another list
       </Button>
     );
 };

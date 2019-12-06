@@ -1,7 +1,7 @@
 import React from "react";
 import CardList from "../cards/CardList";
 import AddCardButton from "../cards/AddCardButton";
-import { Card } from "antd";
+import { Card, Button } from "antd";
 
 const listWrapper = {
   width: "272px",
@@ -39,21 +39,29 @@ const buttonStyle = {
   position: "relative",
   padding: "4px 0px",
   display: "flex",
-  justify: "space-between",
+  justify: "space-between"
 };
+
+const ellipsisStyle = {
+  borderColor: "#ebecf0",
+  color: "#5e6c84",
+  textAlign: "left",
+  boxShadow: "none",
+  float: "right"
+}
 
 const List = ({ id, title, cards }) => (
   <div style={listWrapper}>
-    <Card style={cardStyle} bodyStyle={{padding: "0 4px"}}>
+    <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
       <div style={listContent}>
-        <div style={listHeader}>{title}</div>
+        <div style={listHeader}>
+          {title} <Button  ghost={true} style={ellipsisStyle} icon="ellipsis" />
+        </div>
         <div style={{ zIndex: 10, maxHeight: "80vh", overflowY: "scroll" }}>
           <CardList cards={cards} />
         </div>
         <div style={buttonStyle}>
-          <AddCardButton listId={id}>
-            Add another card
-          </AddCardButton>
+          <AddCardButton listId={id}>Add another card</AddCardButton>
         </div>
       </div>
     </Card>

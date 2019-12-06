@@ -9,10 +9,10 @@ const scrollingWrapper = {
   flexWrap: "nowrap"
 };
 
-const ListList = ({ lists, cards }) => {
+const ListList = ({ boardId, lists, cards }) => {
   return (
     <div style={scrollingWrapper}>
-      {Object.values(lists).map((list, i) => (
+      {lists ? Object.values(lists).map((list, i) => (
         <List
           key={list.id}
           {...list}
@@ -20,14 +20,13 @@ const ListList = ({ lists, cards }) => {
             card => parseInt(card.listId) === list.id
           )}
         />
-      ))}
-      <AddListButton/>
+      )) : null}
+      <AddListButton boardId={boardId}/>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
-  lists: state.lists,
   cards: state.cards
 });
 
