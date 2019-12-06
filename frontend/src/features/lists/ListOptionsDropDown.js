@@ -1,0 +1,108 @@
+import React from "react";
+import { Menu, Dropdown, Icon, Divider } from "antd";
+
+const menuStyle = {
+  width: "304px",
+  overflow: "hidden"
+}
+
+const ellipsisStyle = {
+  borderColor: "#ebecf0",
+  color: "#5e6c84",
+  textAlign: "left",
+  boxShadow: "none",
+  float: "right"
+};
+
+const dividerStyle = {
+  margin: "4px 0"
+};
+
+const headerStyle = {
+  display: "block",
+  textAlign: "center",
+  height: "40px",
+  color: "#172b4d"
+};
+
+const headerTitle = {
+  display: "block",
+  lineHeight: "40px",
+  margin: "0 12px",
+  overflow: "hidden",
+  padding: "0 32px",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap"
+};
+
+const menuGroupStyle = {
+  overflowX: "hidden",
+  overflowY: "auto",
+  padding: "0 12px 12px"
+};
+
+const menuItemStyle = {
+  cursor: "pointer",
+  display: "block",
+  fontWeight: "400",
+  padding: "6px 12px",
+  margin: "0 -12px",
+  textDecoration: "none",
+  color: "#172b4d"
+};
+
+const menu = (
+  <Menu style={menuStyle}>
+    <Menu.Item style={headerStyle}>
+      <span style={headerTitle}>List Actions</span>
+    </Menu.Item>
+    <Menu.Item>
+      <Divider style={dividerStyle} />
+    </Menu.Item>
+    <div style={menuGroupStyle}>
+      <Menu.Item key="1" style={menuItemStyle}>
+        Add Card...
+      </Menu.Item>
+      <Menu.Item key="2" style={menuItemStyle}>
+        Copy List...
+      </Menu.Item>
+      <Menu.Item key="3" style={menuItemStyle}>
+        Move List...
+      </Menu.Item>
+      <Menu.Item key="4" style={menuItemStyle}>
+        Watch
+      </Menu.Item>
+      <Menu.Item>
+        <Divider style={dividerStyle} />
+      </Menu.Item>
+      <Menu.Item key="5" style={menuItemStyle}>
+        Sort By...
+      </Menu.Item>
+      <Menu.Item>
+        <Divider style={dividerStyle} />
+      </Menu.Item>
+      <Menu.Item key="6" style={menuItemStyle}>
+        Move All Cards in This List...
+      </Menu.Item>
+      <Menu.Item key="7" style={menuItemStyle}>
+        Archive All Cards in This List...
+      </Menu.Item>
+      <Menu.Item>
+        <Divider style={dividerStyle} />
+      </Menu.Item>
+      <Menu.Item key="8" style={menuItemStyle}>
+        Archive This List
+      </Menu.Item>
+    </div>
+  </Menu>
+);
+
+const ListOptionsDropDown = () => {
+  return (
+    <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
+      <Icon type="ellipsis" style={ellipsisStyle} />
+    </Dropdown>
+  );
+};
+
+export default ListOptionsDropDown;

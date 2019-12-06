@@ -34,7 +34,7 @@ const AddBoardButton = ({ addBoard }) => {
         onSubmit={e => {
           e.preventDefault();
           if (!boardTitle.trim()) return;
-          addBoard(boardTitle);
+          addBoard(boardTitle, true);
           setBoardTitle("");
           setShowingInput(false);
         }}

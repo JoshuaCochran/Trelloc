@@ -1,7 +1,8 @@
 import React from "react";
 import CardList from "../cards/CardList";
 import AddCardButton from "../cards/AddCardButton";
-import { Card, Button } from "antd";
+import ListOptionsDropDown from "./ListOptionsDropDown"
+import { Card } from "antd";
 
 const listWrapper = {
   width: "272px",
@@ -55,7 +56,7 @@ const List = ({ id, title, cards }) => (
     <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
       <div style={listContent}>
         <div style={listHeader}>
-          {title} <Button  ghost={true} style={ellipsisStyle} icon="ellipsis" />
+          {title} <ListOptionsDropDown style={ellipsisStyle} />
         </div>
         <div style={{ zIndex: 10, maxHeight: "80vh", overflowY: "scroll" }}>
           <CardList cards={cards} />
