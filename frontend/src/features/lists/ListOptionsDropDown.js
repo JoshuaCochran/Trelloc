@@ -1,10 +1,10 @@
 import React from "react";
-import { Menu, Dropdown, Icon, Divider } from "antd";
+import { Menu, Dropdown, Icon } from "antd";
 
 const menuStyle = {
   width: "304px",
   overflow: "hidden"
-}
+};
 
 const ellipsisStyle = {
   borderColor: "#ebecf0",
@@ -51,15 +51,17 @@ const menuItemStyle = {
   color: "#172b4d"
 };
 
+const handleClick = e => {
+  console.log("click ", e);
+};
+
 const menu = (
-  <Menu style={menuStyle}>
+  <Menu onClick={handleClick} style={menuStyle}>
     <Menu.Item style={headerStyle}>
       <span style={headerTitle}>List Actions</span>
     </Menu.Item>
-    <Menu.Item>
-      <Divider style={dividerStyle} />
-    </Menu.Item>
-    <div style={menuGroupStyle}>
+    <Menu.Divider style={dividerStyle}/>
+    <Menu.ItemGroup style={menuGroupStyle}>
       <Menu.Item key="1" style={menuItemStyle}>
         Add Card...
       </Menu.Item>
@@ -72,28 +74,22 @@ const menu = (
       <Menu.Item key="4" style={menuItemStyle}>
         Watch
       </Menu.Item>
-      <Menu.Item>
-        <Divider style={dividerStyle} />
-      </Menu.Item>
+      <Menu.Divider style={dividerStyle}/>
       <Menu.Item key="5" style={menuItemStyle}>
         Sort By...
       </Menu.Item>
-      <Menu.Item>
-        <Divider style={dividerStyle} />
-      </Menu.Item>
+      <Menu.Divider style={dividerStyle}/>
       <Menu.Item key="6" style={menuItemStyle}>
         Move All Cards in This List...
       </Menu.Item>
       <Menu.Item key="7" style={menuItemStyle}>
         Archive All Cards in This List...
       </Menu.Item>
-      <Menu.Item>
-        <Divider style={dividerStyle} />
-      </Menu.Item>
+      <Menu.Divider style={dividerStyle}/>
       <Menu.Item key="8" style={menuItemStyle}>
         Archive This List
       </Menu.Item>
-    </div>
+    </Menu.ItemGroup>
   </Menu>
 );
 
