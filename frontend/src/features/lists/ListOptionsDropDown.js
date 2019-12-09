@@ -93,7 +93,7 @@ const menu = (
   </Menu>
 );
 
-const ListOptionsDropDown = () => {
+const ListOptionsDropDown = ({ setIsVisible }) => {
   return (
     <Dropdown overlay={menu} trigger={["click"]} placement="bottomRight">
       <Icon type="ellipsis" style={ellipsisStyle} />

@@ -41,13 +41,19 @@ const addButtonStyle = {
 
 const mapDispatch = { addCard };
 
-const AddCardButton = ({ addCard, listId }) => {
+const AddCardButton = ({
+  addCard,
+  listId,
+  isVisible,
+  setIsVisible,
+  fromDropDown
+}) => {
   const [showingInput, setShowingInput] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
 
   const onChange = e => setCardTitle(e.target.value);
 
-  if (showingInput)
+  if (isVisible)
     return (
       <Form
         layout="inline"
@@ -88,18 +94,21 @@ const AddCardButton = ({ addCard, listId }) => {
         </Form.Item>
       </Form>
     );
-  else
+  else if (!isVisible && !fromDropDown)
     return (
       <Button
         block
         ghost={true}
-        onClick={() => setShowingInput(true)}
+        onClick={() => {
+          setIsVisible(true);
+        }}
         style={addButtonStyle}
         icon="plus"
       >
         Add another card
       </Button>
     );
+  else return null;
 };
 
 export default connect(null, mapDispatch)(AddCardButton);

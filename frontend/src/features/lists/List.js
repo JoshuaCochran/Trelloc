@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CardList from "../cards/CardList";
 import AddCardButton from "../cards/AddCardButton";
-import ListOptionsDropDown from "./ListOptionsDropDown"
+import ListOptionsDropDown from "./ListOptionsDropDown";
 import { Card } from "antd";
 
 const listWrapper = {
@@ -49,24 +49,61 @@ const ellipsisStyle = {
   textAlign: "left",
   boxShadow: "none",
   float: "right"
-}
+};
 
-const List = ({ id, title, cards }) => (
-  <div style={listWrapper}>
-    <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
-      <div style={listContent}>
-        <div style={listHeader}>
-          {title} <ListOptionsDropDown style={ellipsisStyle} />
+const List = ({ id, title, cards }) => {
+  const wrapperRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setIsVisible(false);
+      console.log(event.target);
+      console.log(wrapperRef.current)
+    }
+  };
+
+  return (
+    <div style={listWrapper}>
+      <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
+        <div style={listContent}>
+          <div style={listHeader}>
+            {title} <ListOptionsDropDown style={ellipsisStyle} setIsVisible={setIsVisible}/>
+          </div>
+          <div style={buttonStyle}>
+            <AddCardButton
+              listId={id}
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
+              fromDropDown={true}
+            >
+              Add another card
+            </AddCardButton>
+          </div>
+          <div style={{ zIndex: 10, maxHeight: "80vh", overflowY: "scroll" }}>
+            <CardList cards={cards} />
+          </div>
+          <div style={buttonStyle} ref={wrapperRef}>
+            <AddCardButton
+              listId={id}
+              isVisible={isVisible}
+              setIsVisible={setIsVisible}
+              fromDropDown={false}
+            >
+              Add another card
+            </AddCardButton>
+          </div>
         </div>
-        <div style={{ zIndex: 10, maxHeight: "80vh", overflowY: "scroll" }}>
-          <CardList cards={cards} />
-        </div>
-        <div style={buttonStyle}>
-          <AddCardButton listId={id}>Add another card</AddCardButton>
-        </div>
-      </div>
-    </Card>
-  </div>
-);
+      </Card>
+    </div>
+  );
+};
 
 export default List;

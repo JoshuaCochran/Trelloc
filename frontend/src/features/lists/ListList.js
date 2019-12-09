@@ -12,16 +12,18 @@ const scrollingWrapper = {
 const ListList = ({ boardId, lists, cards }) => {
   return (
     <div style={scrollingWrapper}>
-      {lists ? Object.values(lists).map((list, i) => (
-        <List
-          key={list.id}
-          {...list}
-          cards={Object.values(cards).filter(
-            card => parseInt(card.listId) === list.id
-          )}
-        />
-      )) : null}
-      <AddListButton boardId={boardId}/>
+      {lists
+        ? Object.values(lists).map((list, i) => (
+            <List
+              key={list.id}
+              {...list}
+              cards={Object.values(cards).filter(
+                card => parseInt(card.listId) === list.id
+              )}
+            />
+          ))
+        : null}
+      <AddListButton boardId={boardId} />
     </div>
   );
 };
