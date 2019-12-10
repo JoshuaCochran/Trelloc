@@ -48,7 +48,6 @@ const AddCardButton = ({
   setIsVisible,
   fromDropDown
 }) => {
-  const [showingInput, setShowingInput] = useState(false);
   const [cardTitle, setCardTitle] = useState("");
 
   const onChange = e => setCardTitle(e.target.value);
@@ -62,7 +61,7 @@ const AddCardButton = ({
           if (!cardTitle.trim()) return;
           addCard(listId, cardTitle, "");
           setCardTitle("");
-          setShowingInput(false);
+          setIsVisible(false);
         }}
       >
         <Form.Item style={{ width: "100%" }}>
@@ -84,7 +83,7 @@ const AddCardButton = ({
             <Button
               ghost={true}
               onClick={() => {
-                setShowingInput(false);
+                setIsVisible(false);
                 setCardTitle("");
               }}
               style={closeButtonStyle}

@@ -53,7 +53,8 @@ const ellipsisStyle = {
 
 const List = ({ id, title, cards }) => {
   const wrapperRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isTopVisible, setIsTopVisible] = useState(false);
+  const [isBotVisible, setIsBotVisible] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside, false);
@@ -64,24 +65,27 @@ const List = ({ id, title, cards }) => {
 
   const handleClickOutside = event => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-      setIsVisible(false);
-      console.log(event.target);
-      console.log(wrapperRef.current)
+      setIsTopVisible(false);
+      setIsBotVisible(false);
     }
   };
 
   return (
-    <div style={listWrapper}>
+    <div style={listWrapper} ref={wrapperRef}>
       <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
         <div style={listContent}>
           <div style={listHeader}>
-            {title} <ListOptionsDropDown style={ellipsisStyle} setIsVisible={setIsVisible}/>
+            {title}{" "}
+            <ListOptionsDropDown
+              style={ellipsisStyle}
+              setIsVisible={setIsTopVisible}
+            />
           </div>
           <div style={buttonStyle}>
             <AddCardButton
               listId={id}
-              isVisible={isVisible}
-              setIsVisible={setIsVisible}
+              isVisible={isTopVisible}
+              setIsVisible={setIsTopVisible}
               fromDropDown={true}
             >
               Add another card
@@ -90,11 +94,11 @@ const List = ({ id, title, cards }) => {
           <div style={{ zIndex: 10, maxHeight: "80vh", overflowY: "scroll" }}>
             <CardList cards={cards} />
           </div>
-          <div style={buttonStyle} ref={wrapperRef}>
+          <div style={buttonStyle}>
             <AddCardButton
               listId={id}
-              isVisible={isVisible}
-              setIsVisible={setIsVisible}
+              isVisible={isBotVisible}
+              setIsVisible={setIsBotVisible}
               fromDropDown={false}
             >
               Add another card
