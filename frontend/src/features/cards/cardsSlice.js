@@ -20,9 +20,22 @@ const cardsSlice = createSlice({
         delete state[action.payload.id];
       }
     },
+    moveCard: {
+      reducer(state, action) {
+        state[action.payload.id].listId = action.payload.listId;
+      }
+    },
+    moveCards: {
+      reducer(state, action) {
+        Object.keys(state).forEach(key => {
+          if (state[key].listId === action.payload.listId)
+            state[key].listId = action.payload.swapListId;
+        });
+      }
+    }
   }
 });
 
-export const { addCard, deleteCard } = cardsSlice.actions;
+export const { addCard, deleteCard, moveCard, moveCards } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

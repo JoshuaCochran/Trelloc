@@ -1,10 +1,6 @@
-import React from "react";
-import { Menu, Dropdown, Icon } from "antd";
-
-const menuStyle = {
-  width: "304px",
-  overflow: "hidden"
-};
+import React, { useState } from "react";
+import { Dropdown, Icon } from "antd";
+import ListOptionsMenu from "../menus/ListOptionsMenu";
 
 const ellipsisStyle = {
   borderColor: "#ebecf0",
@@ -14,91 +10,18 @@ const ellipsisStyle = {
   float: "right"
 };
 
-const dividerStyle = {
-  margin: "4px 0"
-};
-
-const headerStyle = {
-  display: "block",
-  textAlign: "center",
-  height: "40px",
-  color: "#172b4d"
-};
-
-const headerTitle = {
-  display: "block",
-  lineHeight: "40px",
-  margin: "0 12px",
-  overflow: "hidden",
-  padding: "0 32px",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap"
-};
-
-const menuGroupStyle = {
-  overflowX: "hidden",
-  overflowY: "auto",
-  padding: "0 12px 12px"
-};
-
-const menuItemStyle = {
-  cursor: "pointer",
-  display: "block",
-  fontWeight: "400",
-  padding: "6px 12px",
-  margin: "0 -12px",
-  textDecoration: "none",
-  color: "#172b4d"
-};
-
-const handleClick = (e, setIsVisible) => {
-  if (e.key === "1") setIsVisible(true);
-};
-
-const MenuItems = ({ setIsVisible }) => {
-  return (
-    <Menu onClick={e => handleClick(e, setIsVisible)} style={menuStyle}>
-      <Menu.Item style={headerStyle}>
-        <span style={headerTitle}>List Actions</span>
-      </Menu.Item>
-      <Menu.Divider style={dividerStyle} />
-      <Menu.ItemGroup style={menuGroupStyle}>
-        <Menu.Item key="1" style={menuItemStyle}>
-          Add Card...
-        </Menu.Item>
-        <Menu.Item key="2" style={menuItemStyle}>
-          Copy List...
-        </Menu.Item>
-        <Menu.Item key="3" style={menuItemStyle}>
-          Move List...
-        </Menu.Item>
-        <Menu.Item key="4" style={menuItemStyle}>
-          Watch
-        </Menu.Item>
-        <Menu.Divider style={dividerStyle} />
-        <Menu.Item key="5" style={menuItemStyle}>
-          Sort By...
-        </Menu.Item>
-        <Menu.Divider style={dividerStyle} />
-        <Menu.Item key="6" style={menuItemStyle}>
-          Move All Cards in This List...
-        </Menu.Item>
-        <Menu.Item key="7" style={menuItemStyle}>
-          Archive All Cards in This List...
-        </Menu.Item>
-        <Menu.Divider style={dividerStyle} />
-        <Menu.Item key="8" style={menuItemStyle}>
-          Archive This List
-        </Menu.Item>
-      </Menu.ItemGroup>
-    </Menu>
-  );
-};
-
 const ListOptionsDropDown = ({ setIsVisible }) => {
+  const [showingMoveList, setShowingMoveList] = useState(false);
+
   return (
     <Dropdown
-      overlay={<MenuItems setIsVisible={setIsVisible} />}
+      overlay={
+        <ListOptionsMenu
+          setIsVisible={setIsVisible}
+          showingMoveList={showingMoveList}
+          setShowingMoveList={setShowingMoveList}
+        />
+      }
       trigger={["click"]}
       placement="bottomRight"
     >

@@ -35,7 +35,7 @@ const BoardList = ({ boards }) => {
       </div>
       <div style={buttonContainerStyle}>
         {Object.values(boards).map((board, i) => (
-          <div style={buttonStyle}>
+          <div style={buttonStyle} key={i+board.id}>
             <BoardButton key={board.id} {...board} />
           </div>
         ))}

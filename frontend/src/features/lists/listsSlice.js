@@ -19,10 +19,18 @@ const listsSlice = createSlice({
       reducer(state, action) {
         delete state[action.payload.id];
       }
+    },
+    moveList: {
+      reducer(state, action) {
+        const { id, swapId } = action.payload;
+        let temp = state[id];
+        state[id] = state[swapId];
+        state[swapId] = temp;
+      }
     }
   }
 });
 
-export const { addList, deleteList } = listsSlice.actions;
+export const { addList, deleteList, moveList } = listsSlice.actions;
 
 export default listsSlice.reducer;
