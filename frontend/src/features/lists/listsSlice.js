@@ -22,10 +22,16 @@ const listsSlice = createSlice({
     },
     moveList: {
       reducer(state, action) {
-        const { id, swapId } = action.payload;
+        const { id, swapId, swapBoardId } = action.payload;
+        
+        state[id].boardId = swapBoardId;
+        
         let temp = state[id];
         state[id] = state[swapId];
         state[swapId] = temp;
+      },
+      prepare(id, swapId, swapBoardId) {
+        return { payload: { id, swapId, swapBoardId } };
       }
     }
   }

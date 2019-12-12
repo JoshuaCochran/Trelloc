@@ -79,6 +79,7 @@ const List = ({ id, title, cards }) => {
             <ListOptionsDropDown
               style={ellipsisStyle}
               setIsVisible={setIsTopVisible}
+              listId={id}
             />
           </div>
           <div style={buttonStyle}>

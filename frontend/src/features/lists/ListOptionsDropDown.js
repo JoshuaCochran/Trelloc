@@ -10,7 +10,7 @@ const ellipsisStyle = {
   float: "right"
 };
 
-const ListOptionsDropDown = ({ setIsVisible }) => {
+const ListOptionsDropDown = ({ setIsVisible, listId }) => {
   const [showingMoveList, setShowingMoveList] = useState(false);
 
   return (
@@ -20,6 +20,7 @@ const ListOptionsDropDown = ({ setIsVisible }) => {
           setIsVisible={setIsVisible}
           showingMoveList={showingMoveList}
           setShowingMoveList={setShowingMoveList}
+          listId={listId}
         />
       }
       trigger={["click"]}

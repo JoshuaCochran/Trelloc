@@ -5,13 +5,15 @@ import MoveListMenu from "./MoveListMenu";
 const ListOptionsMenu = ({
   setIsVisible,
   showingMoveList,
-  setShowingMoveList
+  setShowingMoveList,
+  listId
 }) => {
   if (showingMoveList)
     return (
       <MoveListMenu
         setIsVisible={setIsVisible}
         setShowingMoveList={setShowingMoveList}
+        listId={listId}
       />
     );
   else

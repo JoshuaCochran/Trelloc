@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Button, Select } from "antd";
 import { connect } from "react-redux";
+import { moveList } from "../lists/listsSlice";
 
 const { Option } = Select;
 
@@ -38,19 +39,42 @@ const buttonStyle = {
   boxShadow: "none",
   float: "left",
   display: "block",
-  height: "auto",
+  height: "auto"
 };
+
+const selectStyle = {
+  left: 0,
+  margin: 0,
+  border: "none",
+  width: "100%"
+};
+
+const labelStyle = { 
+    height: "8px",
+    margin: "4px"
+}
 
 const handleClick = (e, setIsVisible, setShowingMoveList) => {
   if (e.key === "1") setIsVisible(true);
   else if (e.key === "3") setShowingMoveList(true);
 };
 
-const MoveListMenu = ({ setIsVisible, setShowingMoveList, boards }) => {
+const MoveListMenu = ({
+  setIsVisible,
+  setShowingMoveList,
+  listId,
+  boards,
+  lists,
+  moveList
+}) => {
   let activeBoard = null;
   Object.keys(boards).forEach(key => {
     if (boards[key].isActive) activeBoard = boards[key];
   });
+
+  const [selectedBoard, setSelectedBoard] = useState(activeBoard.id);
+  const [selectedPosition, setSelectedPosition] = useState(listId);
+
   return (
     <Menu
       onClick={e => handleClick(e, setIsVisible, setShowingMoveList)}
@@ -65,18 +89,51 @@ const MoveListMenu = ({ setIsVisible, setShowingMoveList, boards }) => {
         <span style={headerTitle}>Move List</span>
       </Menu.Item>
       <Menu.Divider style={dividerStyle} />
-      <div style={{height: "50px"}}>Board: </div>
-      <Select defaultValue={activeBoard.title} style={{width: "100%"}}>
+      <div style={labelStyle}>Board: </div>
+      <Select
+        defaultValue={activeBoard.id}
+        style={selectStyle}
+        onChange={value => setSelectedBoard(value)}
+      >
         {Object.keys(boards).map(key => (
-          <Option value={boards[key].title}>{boards[key].title}</Option>
+          <Option value={boards[key].id} key={key}>
+            {boards[key].title}
+          </Option>
         ))}
       </Select>
+      <div style={labelStyle}>Position: </div>
+      <Select
+        defaultValue={listId}
+        style={selectStyle}
+        onChange={value => setSelectedPosition(value)}
+      >
+        {Object.keys(lists).map(key =>
+          lists[key].boardId == selectedBoard ? (
+            <Option value={lists[key].id} key={key}>
+              {lists[key].id}
+              {lists[key].id === listId ? "(current)" : null}
+            </Option>
+          ) : null
+        )}
+      </Select>
+      <Menu.Item>
+        <Button
+          onClick={() =>
+            moveList(listId, selectedPosition, selectedBoard)
+          }
+        >
+          Move
+        </Button>
+      </Menu.Item>
     </Menu>
   );
 };
 
 const mapStateToProps = state => ({
-  boards: state.boards
+  boards: state.boards,
+  lists: state.lists
 });
 
-export default connect(mapStateToProps, null)(MoveListMenu);
+const mapDispatch = { moveList };
+
+export default connect(mapStateToProps, mapDispatch)(MoveListMenu);
