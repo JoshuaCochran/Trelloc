@@ -49,10 +49,12 @@ const selectStyle = {
   width: "100%"
 };
 
-const labelStyle = { 
-    height: "8px",
-    margin: "4px"
-}
+const labelStyle = {
+  height: "8px",
+  margin: "8px",
+  padding: "4px",
+  fontSize: "14px"
+};
 
 const handleClick = (e, setIsVisible, setShowingMoveList) => {
   if (e.key === "1") setIsVisible(true);
@@ -89,18 +91,20 @@ const MoveListMenu = ({
         <span style={headerTitle}>Move List</span>
       </Menu.Item>
       <Menu.Divider style={dividerStyle} />
-      <div style={labelStyle}>Board: </div>
-      <Select
-        defaultValue={activeBoard.id}
-        style={selectStyle}
-        onChange={value => setSelectedBoard(value)}
-      >
-        {Object.keys(boards).map(key => (
-          <Option value={boards[key].id} key={key}>
-            {boards[key].title}
-          </Option>
-        ))}
-      </Select>
+      <div>
+        <div style={labelStyle}>Board: </div>
+        <Select
+          defaultValue={activeBoard.id}
+          style={selectStyle}
+          onChange={value => setSelectedBoard(value)}
+        >
+          {Object.keys(boards).map(key => (
+            <Option value={boards[key].id} key={key}>
+              {boards[key].title}
+            </Option>
+          ))}
+        </Select>
+      </div>
       <div style={labelStyle}>Position: </div>
       <Select
         defaultValue={listId}
@@ -118,9 +122,7 @@ const MoveListMenu = ({
       </Select>
       <Menu.Item>
         <Button
-          onClick={() =>
-            moveList(listId, selectedPosition, selectedBoard)
-          }
+          onClick={() => moveList(listId, selectedPosition, selectedBoard)}
         >
           Move
         </Button>
