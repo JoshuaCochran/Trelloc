@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Menu, Button, Select } from "antd";
 import { connect } from "react-redux";
 import { moveList } from "../lists/listsSlice";
+import { getActiveBoard, getTitle, getId } from "../../selectors/BoardSelectors"
 
 const { Option } = Select;
 
@@ -69,12 +70,7 @@ const MoveListMenu = ({
   lists,
   moveList
 }) => {
-  let activeBoard = null;
-  Object.keys(boards).forEach(key => {
-    if (boards[key].isActive) activeBoard = boards[key];
-  });
-
-  const [selectedBoard, setSelectedBoard] = useState(activeBoard.id);
+  const [selectedBoard, setSelectedBoard] = useState(getActiveBoard(boards));
   const [selectedPosition, setSelectedPosition] = useState(listId);
 
   return (
@@ -94,13 +90,13 @@ const MoveListMenu = ({
       <div>
         <div style={labelStyle}>Board: </div>
         <Select
-          defaultValue={activeBoard.id}
+          defaultValue={getTitle(boards, getActiveBoard(boards))}
           style={selectStyle}
           onChange={value => setSelectedBoard(value)}
         >
           {Object.keys(boards).map(key => (
-            <Option value={boards[key].id} key={key}>
-              {boards[key].title}
+            <Option value={getId(boards, key)} key={key}>
+              {getTitle(boards, key)}
             </Option>
           ))}
         </Select>
@@ -113,9 +109,9 @@ const MoveListMenu = ({
       >
         {Object.keys(lists).map(key =>
           lists[key].boardId == selectedBoard ? (
-            <Option value={lists[key].id} key={key}>
-              {lists[key].id}
-              {lists[key].id === listId ? "(current)" : null}
+            <Option value={getId(lists, key)} key={key}>
+              {getId(lists, key)}
+              {getId(lists, key) === listId ? " (current)" : null}
             </Option>
           ) : null
         )}
