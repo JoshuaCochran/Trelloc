@@ -13,7 +13,7 @@ const ListList = ({ boardId, lists, cards }) => {
   return (
     <div style={scrollingWrapper}>
       {lists
-        ? Object.values(lists).map((list, i) => (
+        ? Object.values(lists).sort((a, b) => a.position - b.position).map((list, i) => (
             <List
               key={list.id}
               {...list}

@@ -17,7 +17,7 @@ const bodyStyle = {
 
 const CardList = ({ cards }) => (
   <div>
-    {Object.values(cards).map(card => (
+    {Object.values(cards).sort(function(a, b){return a.position - b.position}).map(card => (
       <Card key={card.id} style={cardStyle} bodyStyle={bodyStyle}>
         {card.title}
       </Card>

@@ -9,7 +9,12 @@ const listsSlice = createSlice({
     addList: {
       reducer(state, action) {
         const { id, boardId, title } = action.payload;
-        state[id] = { id, boardId, title };
+
+        let position = Object.values(state).filter(
+          list => list.boardId === boardId
+        ).length;
+
+        state[id] = { id, boardId, title, position };
       },
       prepare(boardId, title) {
         return { payload: { boardId, title, id: nextCardId++ } };
@@ -22,16 +27,34 @@ const listsSlice = createSlice({
     },
     moveList: {
       reducer(state, action) {
-        const { id, swapId, swapBoardId } = action.payload;
-        
-        state[id].boardId = swapBoardId;
-        
-        let temp = state[id];
-        state[id] = state[swapId];
-        state[swapId] = temp;
+        const { listId, newPosition, newBoardId } = action.payload;
+        console.log(newPosition);
+
+        let orderedLists = [];
+        Object.keys(state).map(key =>
+          state[key].boardId === newBoardId
+            ? orderedLists.push([state[key], key])
+            : null
+        );
+        orderedLists.sort((a, b) => a[0].position - b[0].position);
+        state[listId].position = orderedLists.length;
+        state[listId].boardId = newBoardId;
+        orderedLists.push([state[listId], listId]);
+
+        if (state[listId].position < orderedLists.length - 1)
+          for (let i = state[listId].position + 1; i <= newPosition; i++)
+            orderedLists[i][0].position -= 1;
+        else
+          for (let i = newPosition; i < state[listId].position; i++)
+            orderedLists[i][0].position += 1;
+        state[listId].position = newPosition;
+
+        orderedLists.forEach(
+          listArray => (state[listArray[1]].position = listArray[0].position)
+        );
       },
-      prepare(id, swapId, swapBoardId) {
-        return { payload: { id, swapId, swapBoardId } };
+      prepare(listId, newPosition, newBoardId) {
+        return { payload: { listId, newPosition, newBoardId } };
       }
     }
   }

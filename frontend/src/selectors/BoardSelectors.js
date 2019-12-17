@@ -17,3 +17,7 @@ export const getTitle = (state) => {
 export const getId = (state) => {
   return state.id;
 }
+
+export const getPosition = (state) => {
+  return state.position;
+}

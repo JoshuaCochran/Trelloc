@@ -9,10 +9,17 @@ const cardsSlice = createSlice({
     addCard: {
       reducer(state, action) {
         const { id, listId, title, description } = action.payload;
-        state[id] = { id, listId, title, description };
+
+        let position = Object.values(state).filter(
+          card => card.listId === listId
+        ).length;
+
+        state[id] = { id, listId, title, description, position };
       },
       prepare(listId, title, description) {
-        return { payload: { listId, title, description, id: nextCardId++ } };
+        return {
+          payload: { listId, title, description, id: nextCardId++ }
+        };
       }
     },
     deleteCard: {
