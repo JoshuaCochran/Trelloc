@@ -9,7 +9,7 @@ const { Option } = Select;
 const menuStyle = {
   width: "304px",
   overflow: "hidden",
-  height: "520px"
+  height: "auto"
 };
 
 const dividerStyle = {
@@ -17,8 +17,10 @@ const dividerStyle = {
 };
 
 const headerStyle = {
-  display: "block",
+  display: "flex",
+  alignItems: "center",
   textAlign: "center",
+  justifyContent: "space-between",
   height: "40px",
   color: "#172b4d"
 };
@@ -38,9 +40,9 @@ const buttonStyle = {
   color: "#5e6c84",
   textAlign: "left",
   boxShadow: "none",
-  float: "left",
   display: "block",
-  height: "auto"
+  height: "auto",
+  padding: "10px 8px 10px 12px"
 };
 
 const selectStyle = {
@@ -54,7 +56,8 @@ const labelStyle = {
   height: "8px",
   margin: "8px",
   padding: "4px",
-  fontSize: "14px"
+  fontSize: "14px",
+  fontWeight: 600
 };
 
 const handleClick = (e, setIsVisible, setShowingMoveList) => {
@@ -85,18 +88,19 @@ const MoveListMenu = ({
           style={buttonStyle}
         />
         <span style={headerTitle}>Move List</span>
+        <Button icon="close" style={buttonStyle}/>
       </Menu.Item>
       <Menu.Divider style={dividerStyle} />
       <div>
         <div style={labelStyle}>Board: </div>
         <Select
-          defaultValue={getTitle(boards, getActiveBoard(boards))}
+          defaultValue={getTitle(getActiveBoard(boards))}
           style={selectStyle}
           onChange={value => setSelectedBoard(value)}
         >
           {Object.keys(boards).map(key => (
-            <Option value={getId(boards, key)} key={key}>
-              {getTitle(boards, key)}
+            <Option value={getId(boards[key])} key={key}>
+              {getTitle(boards[key])}
             </Option>
           ))}
         </Select>
@@ -108,10 +112,10 @@ const MoveListMenu = ({
         onChange={value => setSelectedPosition(value)}
       >
         {Object.keys(lists).map(key =>
-          lists[key].boardId == selectedBoard ? (
-            <Option value={getId(lists, key)} key={key}>
-              {getId(lists, key)}
-              {getId(lists, key) === listId ? " (current)" : null}
+          lists[key].boardId == getId(selectedBoard) ? (
+            <Option value={getId(lists[key])} key={key}>
+              {getId(lists[key])}
+              {getId(lists[key]) === listId ? " (current)" : null}
             </Option>
           ) : null
         )}
