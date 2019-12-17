@@ -37,9 +37,12 @@ const listsSlice = createSlice({
             : null
         );
         orderedLists.sort((a, b) => a[0].position - b[0].position);
-        state[listId].position = orderedLists.length;
-        state[listId].boardId = newBoardId;
-        orderedLists.push([state[listId], listId]);
+
+        if (state[listId].boardId != newBoardId) {
+          state[listId].position = orderedLists.length;
+          state[listId].boardId = newBoardId;
+          orderedLists.push([state[listId], listId]);
+        }
 
         if (state[listId].position < orderedLists.length - 1)
           for (let i = state[listId].position + 1; i <= newPosition; i++)
