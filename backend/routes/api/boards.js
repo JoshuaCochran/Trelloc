@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
 // @access Public
 router.post('/', (req, res) => {
     Board.create(req.body)
-      .then(board => res.json({ msg: 'Board added successfully' }))
+      .then(board => res.json({ board: board, msg: 'Board added successfully' }))
       .catch(err => res.status(400).json({ error: 'Unable to add this board' }));
   });
 

@@ -35,7 +35,7 @@ const AddListButton = ({ addList, boardId }) => {
         onSubmit={e => {
           e.preventDefault();
           if (!listTitle.trim()) return;
-          addList(parseInt(boardId, 10), listTitle);
+          addList(boardId, listTitle);
           setListTitle("");
           setShowingInput(false);
         }}

@@ -11,8 +11,8 @@ const boardsSlice = createSlice({
         const { id, title, isPrivate, isActive } = action.payload;
         state[id] = { id, title, isPrivate, isActive };
       },
-      prepare(title, isPrivate, isActive) {
-        return { payload: { title, isPrivate, isActive, id: nextBoardId++ } };
+      prepare(id, title, isPrivate, isActive) {
+        return { payload: { id, title, isPrivate, isActive } };
       }
     },
     deleteBoard: {

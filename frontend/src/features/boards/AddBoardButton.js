@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addBoard } from "./boardsSlice";
 import { Form, Input, Button } from "antd";
+import axios from "axios";
 
 const buttonStyle = {
   marginRight: "8px",
@@ -12,7 +13,7 @@ const buttonStyle = {
   fontSize: "16px",
   fontWeight: 700,
   color: "white",
-  borderColor: "transparent",
+  borderColor: "transparent"
 };
 
 const formStyle = {
@@ -34,7 +35,21 @@ const AddBoardButton = ({ addBoard }) => {
         onSubmit={e => {
           e.preventDefault();
           if (!boardTitle.trim()) return;
-          addBoard(boardTitle, true, false);
+
+          const data = {
+            title: boardTitle,
+            isPrivate: true,
+            isActive: false
+          };
+          axios
+            .post("http://localhost:8082/api/boards", data)
+            .then(res => {
+              addBoard(res.data.board._id, boardTitle, true, false);
+            })
+            .catch(err => {
+              console.log("Error in CreateBoard!");
+            });
+
           setBoardTitle("");
           setShowingInput(false);
         }}

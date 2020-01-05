@@ -8,7 +8,7 @@ const Board = ({ id, lists }) => {
       <ListList
         boardId={id}
         lists={Object.values(lists).filter(
-          list => parseInt(list.boardId) === parseInt(id)
+          list => list.boardId === id
         )}
       />
     </div>
