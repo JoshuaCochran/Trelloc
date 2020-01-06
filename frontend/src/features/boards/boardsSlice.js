@@ -1,7 +1,5 @@
 import { createSlice } from "redux-starter-kit";
 
-let nextBoardId = 0;
-
 const boardsSlice = createSlice({
   name: "boards",
   initialState: {},

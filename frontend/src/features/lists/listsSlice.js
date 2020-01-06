@@ -8,16 +8,12 @@ const listsSlice = createSlice({
   reducers: {
     addList: {
       reducer(state, action) {
-        const { id, boardId, title } = action.payload;
-
-        let position = Object.values(state).filter(
-          list => list.boardId === boardId
-        ).length;
+        const { id, boardId, title, position } = action.payload;
 
         state[id] = { id, boardId, title, position };
       },
-      prepare(boardId, title) {
-        return { payload: { boardId, title, id: nextCardId++ } };
+      prepare(id, boardId, title, position) {
+        return { payload: { id, boardId, title, position } };
       }
     },
     deleteList: {
