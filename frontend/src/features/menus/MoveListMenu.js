@@ -112,7 +112,7 @@ const MoveListMenu = ({
         onChange={value => setSelectedPosition(value)}
       >
         {Object.keys(lists).map(key =>
-          lists[key].boardId == selectedBoard ? (
+          lists[key].boardId === selectedBoard ? (
             <Option value={getPosition(lists[key])} key={key}>
               {getPosition(lists[key])}
               {getPosition(lists[key]) === listId ? " (current)" : null}

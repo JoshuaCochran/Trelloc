@@ -30,9 +30,7 @@ const buttonStyle = {
 const BoardList = ({ boards, addBoard }) => {
   useEffect(() => {
     axios.get("http://localhost:8082/api/boards").then(res => {
-      console.log(res);
       res.data.map(board => {
-        console.log(board);
         addBoard(board._id, board.title, board.isPrivate, board.isActive)
       });
     });

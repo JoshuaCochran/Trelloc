@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addCard } from "./cardsSlice";
 import { Form, Input, Button } from "antd";
+import axios from "axios";
+import { getNumCards } from "../../selectors/CardSelectors"
 
 const inputStyle = {
   maxHeight: "162px",
@@ -42,6 +44,7 @@ const addButtonStyle = {
 const mapDispatch = { addCard };
 
 const AddCardButton = ({
+  cards,
   addCard,
   listId,
   isVisible,
@@ -59,7 +62,22 @@ const AddCardButton = ({
         onSubmit={e => {
           e.preventDefault();
           if (!cardTitle.trim()) return;
-          addCard(listId, cardTitle, "");
+
+          const data = {
+            listId: listId,
+            title: cardTitle,
+            description: "",
+            position: getNumCards(cards, listId)
+          };
+          axios
+            .post("http://localhost:8082/api/cards", data)
+            .then(res => {
+              addCard(res.data.card._id, listId, cardTitle, getNumCards(cards, listId));
+            })
+            .catch(err => {
+              console.log("Error in CreateCard!");
+            });
+
           setCardTitle("");
           setIsVisible(false);
         }}
@@ -110,4 +128,8 @@ const AddCardButton = ({
   else return null;
 };
 
-export default connect(null, mapDispatch)(AddCardButton);
+const mapStateToProps = state => ({
+  cards: state.cards
+});
+
+export default connect(mapStateToProps, mapDispatch)(AddCardButton);

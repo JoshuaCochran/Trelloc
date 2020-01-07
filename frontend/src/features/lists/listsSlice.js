@@ -1,6 +1,5 @@
 import { createSlice } from "redux-starter-kit";
-
-let nextCardId = 0;
+import axios from "axios";
 
 const listsSlice = createSlice({
   name: "lists",
@@ -34,7 +33,7 @@ const listsSlice = createSlice({
         );
         orderedLists.sort((a, b) => a[0].position - b[0].position);
 
-        if (state[listId].boardId != newBoardId) {
+        if (state[listId].boardId !== newBoardId) {
           state[listId].position = orderedLists.length;
           state[listId].boardId = newBoardId;
           orderedLists.push([state[listId], listId]);
@@ -51,6 +50,19 @@ const listsSlice = createSlice({
         orderedLists.forEach(
           listArray => (state[listArray[1]].position = listArray[0].position)
         );
+
+        Object.keys(state).map(key => {
+          const data = {
+            boardId: state[key].boardId,
+            title: state[key].title,
+            position: state[key].position,
+          }
+          axios
+          .put("http://localhost:8082/api/lists/" + state[key].id, data)
+          .catch(err => {
+            console.log("Error in CreateBoard!");
+          });
+        })
       },
       prepare(listId, newPosition, newBoardId) {
         return { payload: { listId, newPosition, newBoardId } };

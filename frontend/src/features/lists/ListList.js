@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import List from "./List";
 import AddListButton from "./AddListButton";
 import { addList } from "./listsSlice";
+import { addCard } from "../cards/cardsSlice";
 import axios from "axios";
 
 const scrollingWrapper = {
@@ -11,13 +12,17 @@ const scrollingWrapper = {
   flexWrap: "nowrap"
 };
 
-const ListList = ({ addList, boardId, lists, cards }) => {
+const ListList = ({ addList, addCard, boardId, lists, cards }) => {
   useEffect(() => {
     axios.get("http://localhost:8082/api/lists").then(res => {
-      console.log(res);
       res.data.map(list => {
-        console.log(list);
         addList(list._id, list.boardId, list.title, list.position);
+      });
+    });
+
+    axios.get("http://localhost:8082/api/cards").then(res => {
+      res.data.map(card => {
+        addCard(card._id, card.listId, card.title, card.description, card.position);
       });
     });
   }, []);
@@ -32,7 +37,7 @@ const ListList = ({ addList, boardId, lists, cards }) => {
                 key={list.id}
                 {...list}
                 cards={Object.values(cards).filter(
-                  card => parseInt(card.listId) === list.id
+                  card => card.listId === list.id
                 )}
               />
             ))
@@ -46,6 +51,6 @@ const mapStateToProps = state => ({
   cards: state.cards
 });
 
-const mapDispatch = { addList };
+const mapDispatch = { addList, addCard };
 
 export default connect(mapStateToProps, mapDispatch)(ListList);

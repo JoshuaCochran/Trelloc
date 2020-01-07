@@ -1,24 +1,18 @@
 import { createSlice } from "redux-starter-kit";
 
-let nextCardId = 0;
-
 const cardsSlice = createSlice({
   name: "cards",
   initialState: {},
   reducers: {
     addCard: {
       reducer(state, action) {
-        const { id, listId, title, description } = action.payload;
-
-        let position = Object.values(state).filter(
-          card => card.listId === listId
-        ).length;
+        const { id, listId, title, description, position } = action.payload;
 
         state[id] = { id, listId, title, description, position };
       },
-      prepare(listId, title, description) {
+      prepare(id, listId, title, description, position) {
         return {
-          payload: { listId, title, description, id: nextCardId++ }
+          payload: { id, listId, title, description, position }
         };
       }
     },
