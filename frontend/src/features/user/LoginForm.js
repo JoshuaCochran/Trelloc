@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Icon, Input, Button } from "antd";
+import { Link } from "react-router-dom";
+
+const formStyle = {
+  borderRadius: "3px",
+  backgroundColor: "white",
+  width: "20vw",
+  margin: "auto",
+  marginTop: "20vh",
+  padding: "4px 8px"
+};
 
 const LoginFormComponent = ({ onSubmit, form }) => {
   const { getFieldDecorator } = form;
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const onEmailChange = e => setEmail(e.target.value);
-  const onPassChange = e => setPassword(e.target.value);
-
   return (
-    <Form onSubmit={onSubmit} className="login-form">
+    <Form onSubmit={onSubmit} className="login-form" style={formStyle}>
+      <Form.Item>
+        <h1
+          style={{ textAlign: "center", marginTop: "4px", marginBottom: "0px" }}
+        >
+          Log in to Trelloc
+        </h1>
+      </Form.Item>
       <Form.Item>
         {getFieldDecorator("username", {
           rules: [{ required: true, message: "Please input your username!" }]
@@ -35,16 +45,12 @@ const LoginFormComponent = ({ onSubmit, form }) => {
         )}
       </Form.Item>
       <Form.Item>
-        <div>
-          <div>
-            <a className="login-form-forgot" href="">
-              Forgot password
-            </a>
-          </div>
-          <div>
-            <a href="">Register!</a>
-          </div>
-        </div>
+        <Link to={"/user/forgotpass/"} style={{ marginRight: "4px" }}>
+          Forgot password
+        </Link>
+        <Link to={"/user/register/"} style={{ marginLeft: "4px" }}>
+          Register
+        </Link>
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
