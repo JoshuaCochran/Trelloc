@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "antd/dist/antd.css";
 import Header from "../features/header/Header";
 import { Layout } from "antd";
 import LoggedInRouter from "../features/router/LoggedInRouter";
 import LoggedOutRouter from "../features/router/LoggedOutRouter";
-import { isLoggedIn } from "../selectors/UserSelectors";
+import { isLoggedIn, getAuthToken } from "../selectors/UserSelectors";
 import { connect } from "react-redux";
+import { addUser } from "../features/user/userSlice";
+import axios from "axios";
+import Cookies from "universal-cookie";
 
 const layoutStyle = {
   backgroundColor: "black",
@@ -22,7 +25,23 @@ const contentStyle = {
   height: "100%"
 };
 
-function App({ user }) {
+function App({ user, addUser }) {
+  useEffect(() => {
+    const cookies = new Cookies();
+    const token = cookies.get("trelloc token");
+
+    axios.defaults.baseURL = "https://localhost:8082";
+    axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    axios.defaults.headers.post["Content-Type"] =
+      "application/x-www-form-urlencoded";
+
+    if (token) {
+      axios.get("http://localhost:8082/api/users/me").then(res => {
+        addUser(res.data.username, res.data.email, token);
+      });
+    }
+  }, [user]);
+
   return (
     <div className="App">
       <Layout style={layoutStyle}>
@@ -39,4 +58,6 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-export default connect(mapStateToProps, null)(App);
+const mapDispatch = { addUser };
+
+export default connect(mapStateToProps, mapDispatch)(App);

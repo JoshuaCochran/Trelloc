@@ -26,12 +26,10 @@ const LoginFormWrapper = ({ addUser }) => {
           addUser(res.data.user.username, res.data.user.email, res.data.token);
           const cookies = new Cookies();
           cookies.set('trelloc token', res.data.token, { path: "/" });
-          console.log(cookies.get('trelloc token'));
         })
         .catch(err => {
           console.log("Login error!");
         })
-        console.log("Received values of form: ", values);
         formRef.resetFields();
       }
     });

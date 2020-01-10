@@ -29,9 +29,9 @@ const buttonStyle = {
 
 const BoardList = ({ boards, addBoard }) => {
   useEffect(() => {
-    axios.get("http://localhost:8082/api/boards").then(res => {
+    axios.get("http://localhost:8082/api/boards", ).then(res => {
       res.data.map(board => {
-        addBoard(board._id, board.title, board.isPrivate, board.isActive)
+        addBoard(board._id, board.owner, board.title, board.isPrivate, board.isActive)
       });
     });
   }, []);

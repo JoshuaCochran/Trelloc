@@ -8,5 +8,5 @@ export default combineReducers({
   cards: cardsReducer,
   lists: listsReducer,
   boards: boardsReducer,
-  userReducer
+  user: userReducer
 });
