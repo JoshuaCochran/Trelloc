@@ -2,7 +2,10 @@ import React from "react";
 import "antd/dist/antd.css";
 import Header from "../features/header/Header";
 import { Layout } from "antd";
-import Router from "../features/router/Router"
+import LoggedInRouter from "../features/router/LoggedInRouter";
+import LoggedOutRouter from "../features/router/LoggedOutRouter";
+import { isLoggedIn } from "../selectors/UserSelectors";
+import { connect } from "react-redux";
 
 const layoutStyle = {
   backgroundColor: "black",
@@ -19,17 +22,21 @@ const contentStyle = {
   height: "100%"
 };
 
-function App() {
+function App({ user }) {
   return (
     <div className="App">
       <Layout style={layoutStyle}>
         <Header />
         <Layout.Content style={contentStyle}>
-          <Router />
+          {isLoggedIn(user) ? <LoggedInRouter /> : <LoggedOutRouter />}
         </Layout.Content>
       </Layout>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps, null)(App);

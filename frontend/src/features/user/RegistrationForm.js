@@ -92,7 +92,7 @@ const RegistrationFormComponent = ({ onSubmit, form }) => {
         )}
       </Form.Item>
       <Form.Item>
-        <Link to={"/user/login"}>Login in</Link>
+        <Link to={"/user/login"}>Log in</Link>
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
