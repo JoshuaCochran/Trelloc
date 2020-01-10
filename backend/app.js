@@ -1,11 +1,14 @@
 const express = require('express');
-const connectDB = require('./config/db');
+const connectDB = require('./db/db');
+const port = process.env.PORT
 var cors = require('cors');
+
 
 // routes
 const boards = require('./routes/api/boards');
 const lists = require('./routes/api/lists');
 const cards = require('./routes/api/cards');
+const users = require('./routes/api/users');
 
 const app = express();
 
@@ -23,8 +26,7 @@ app.get('/', (req, res) => res.send('Hello world!'));
 app.use('/api/boards', boards);
 app.use('/api/lists', lists);
 app.use('/api/cards', cards);
-
-const port = process.env.PORT || 8082;
+app.use('/api/users', users);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
 

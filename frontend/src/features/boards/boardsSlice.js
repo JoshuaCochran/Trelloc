@@ -6,11 +6,11 @@ const boardsSlice = createSlice({
   reducers: {
     addBoard: {
       reducer(state, action) {
-        const { id, title, isPrivate, isActive } = action.payload;
-        state[id] = { id, title, isPrivate, isActive };
+        const { id, owner, title, isPrivate, isActive } = action.payload;
+        state[id] = { id, owner, title, isPrivate, isActive };
       },
-      prepare(id, title, isPrivate, isActive) {
-        return { payload: { id, title, isPrivate, isActive } };
+      prepare(id, owner, title, isPrivate, isActive) {
+        return { payload: { id, owner, title, isPrivate, isActive } };
       }
     },
     deleteBoard: {

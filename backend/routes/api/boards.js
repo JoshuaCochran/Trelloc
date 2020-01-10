@@ -4,6 +4,12 @@ const router = express.Router();
 // Load Board model
 const Board = require('../../models/Board');
 
+// Load User model
+const User = require("../../models/User");
+
+//Load authentication middleware
+const auth = require("../../middleware/auth");
+
 // @route GET api/boards/test
 // @description tests boards route
 // @access Public
@@ -11,9 +17,9 @@ router.get('/test', (req, res) => res.send('testing board route!'));
 
 // @route GET api/boards
 // @description Get all boards
-// @access Public
-router.get('/', (req, res) => {
-    Board.find()
+// @access Private
+router.get('/', auth, (req, res) => {
+    Board.find({ owner: req.user.username })
     .then(boards => res.json(boards))
     .catch(err => res.status(404).json({ noboardsfound: 'No Boards found'}));
 })
@@ -29,8 +35,10 @@ router.get('/:id', (req, res) => {
 
 // @route GET api/board
 // @description add/save board
-// @access Public
-router.post('/', (req, res) => {
+// @access Private
+router.post('/', auth, (req, res) => {
+    const owner = req.user.username;
+    req.body.owner = owner;
     Board.create(req.body)
       .then(board => res.json({ board: board, msg: 'Board added successfully' }))
       .catch(err => res.status(400).json({ error: 'Unable to add this board' }));
@@ -38,8 +46,8 @@ router.post('/', (req, res) => {
 
 // @route GET api/boards/:id
 // @description Update board
-// @access Public
-router.put('/:id', (req, res) => {
+// @access Private
+router.put('/:id', auth, (req, res) => {
     Board.findByIdAndUpdate(req.params.id, req.body)
       .then(board => res.json({ msg: 'Updated successfully' }))
       .catch(err =>

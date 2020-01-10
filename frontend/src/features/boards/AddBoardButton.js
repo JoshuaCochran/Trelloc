@@ -44,7 +44,7 @@ const AddBoardButton = ({ addBoard }) => {
           axios
             .post("http://localhost:8082/api/boards", data)
             .then(res => {
-              addBoard(res.data.board._id, boardTitle, true, false);
+              addBoard(res.data.board._id, res.data.board.owner, boardTitle, true, false);
             })
             .catch(err => {
               console.log("Error in CreateBoard!");
