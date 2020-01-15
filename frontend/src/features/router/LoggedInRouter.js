@@ -13,7 +13,7 @@ const LoggedInRouter = () => {
           render={props => <Board id={props.match.params.id} />}
         />
         <Route exact path="/user/boards" render={() => <BoardList />} />
-        <Route exact path="/" render={() => <Redirect to="/user/boards" />} />
+        <Route path="/" render={() => <Redirect to="/user/boards" />} />
       </Switch>
     </main>
   );

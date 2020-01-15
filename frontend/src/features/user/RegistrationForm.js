@@ -11,6 +11,11 @@ const formStyle = {
   padding: "4px 8px"
 };
 
+const inputStyle = {
+  marginBottom: "4px",
+  marginTop: "4px"
+}
+
 const RegistrationFormComponent = ({ onSubmit, form }) => {
   const { getFieldDecorator } = form;
 
@@ -38,7 +43,7 @@ const RegistrationFormComponent = ({ onSubmit, form }) => {
           Register for a Trelloc Account
         </h1>
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={inputStyle}>
         {getFieldDecorator("username", {
           rules: [{ required: true, message: "Please input your username!" }]
         })(
@@ -48,7 +53,7 @@ const RegistrationFormComponent = ({ onSubmit, form }) => {
           />
         )}
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={inputStyle}>
         {getFieldDecorator("email", {
           rules: [
             { type: "email", message: "Please input a valid email!" },
@@ -61,7 +66,7 @@ const RegistrationFormComponent = ({ onSubmit, form }) => {
           />
         )}
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={inputStyle}>
         {getFieldDecorator("password", {
           rules: [
             { required: true, message: "Please input your password!" },
@@ -75,7 +80,7 @@ const RegistrationFormComponent = ({ onSubmit, form }) => {
           />
         )}
       </Form.Item>
-      <Form.Item>
+      <Form.Item style={inputStyle}>
         {getFieldDecorator("confirm password", {
           rules: [
             { required: true, message: "Please confirm your password!" },
@@ -92,12 +97,10 @@ const RegistrationFormComponent = ({ onSubmit, form }) => {
         )}
       </Form.Item>
       <Form.Item>
-        <Link to={"/user/login"}>Log in</Link>
-      </Form.Item>
-      <Form.Item>
         <Button type="primary" htmlType="submit" className="login-form-button">
           Register
         </Button>
+        <Link to={"/user/login"} style={{marginLeft: "8px"}}> or Log in</Link>
       </Form.Item>
     </Form>
   );

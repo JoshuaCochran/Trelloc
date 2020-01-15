@@ -9,7 +9,8 @@ import axios from "axios";
 const scrollingWrapper = {
   display: "flex",
   overflowX: "auto",
-  flexWrap: "nowrap"
+  flexWrap: "nowrap",
+  height: "calc(100vh - 45px)"
 };
 
 const ListList = ({ addList, addCard, boardId, lists, cards }) => {
