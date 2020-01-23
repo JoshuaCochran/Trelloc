@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { deleteUser } from "./userSlice";
+import { logout } from "./userSlice";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import { Modal, Button } from "antd";
@@ -14,7 +14,7 @@ const buttonStyle = {
   padding: 0
 };
 
-const LogoutButton = ({ deleteUser }) => {
+const LogoutButton = ({ logout }) => {
   const [visible, setVisible] = useState(false);
 
   const showModal = () => {
@@ -22,16 +22,7 @@ const LogoutButton = ({ deleteUser }) => {
   };
 
   const handleYes = e => {
-    axios
-      .get("users/me/logout")
-      .then(res => {
-        const cookies = new Cookies();
-        cookies.remove("trelloc token", { path: "/" });
-        deleteUser();
-      })
-      .catch(err => {
-        console.log("Logout error!");
-      });
+    logout();
     setVisible(false);
   };
 
@@ -60,6 +51,6 @@ const LogoutButton = ({ deleteUser }) => {
   );
 };
 
-const mapDispatch = { deleteUser };
+const mapDispatch = { logout };
 
 export default connect(null, mapDispatch)(LogoutButton);

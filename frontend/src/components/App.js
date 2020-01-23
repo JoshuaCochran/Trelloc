@@ -6,7 +6,7 @@ import LoggedInRouter from "../features/router/LoggedInRouter";
 import LoggedOutRouter from "../features/router/LoggedOutRouter";
 import { isLoggedIn, getAuthToken } from "../selectors/UserSelectors";
 import { connect } from "react-redux";
-import { addUser } from "../features/user/userSlice";
+import { fetchUserDetails } from "../features/user/userSlice";
 import axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -25,7 +25,7 @@ const contentStyle = {
   height: "100%"
 };
 
-function App({ user, addUser }) {
+function App({ user, fetchUserDetails }) {
   useEffect(() => {
     const cookies = new Cookies();
     const token = cookies.get("trelloc token");
@@ -35,11 +35,7 @@ function App({ user, addUser }) {
     axios.defaults.headers.post["Content-Type"] =
       "application/x-www-form-urlencoded";
 
-    if (token) {
-      axios.get("users/me").then(res => {
-        addUser(res.data.username, res.data.email, token);
-      });
-    }
+    fetchUserDetails(token);
   }, []);
 
   return (
@@ -58,6 +54,6 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatch = { addUser };
+const mapDispatch = { fetchUserDetails };
 
 export default connect(mapStateToProps, mapDispatch)(App);
