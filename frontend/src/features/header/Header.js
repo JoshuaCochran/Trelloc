@@ -1,6 +1,7 @@
 import React from "react";
 import { Layout, Button } from "antd";
 import { Link } from "react-router-dom";
+import LogoutButton from "../user/LogoutButton";
 
 const headerStyle = {
   backgroundImage:
@@ -52,7 +53,7 @@ const Header = () => {
       <div style={rightButtonContainer}>
         <Button style={buttonStyle} icon="plus" />
         <Button style={buttonStyle} icon="bell" />
-        <Button style={buttonStyle} shape="circle" icon="codepen" />
+        <LogoutButton />
       </div>
     </Layout.Header>
   );

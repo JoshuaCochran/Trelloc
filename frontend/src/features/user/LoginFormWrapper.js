@@ -21,8 +21,9 @@ const LoginFormWrapper = ({ addUser }) => {
         }
         
         axios
-        .post("http://localhost:8082/api/users/login", data)
+        .post("users/login", data)
         .then(res => {
+          axios.defaults.headers.common["Authorization"] = "Bearer " + res.data.token;
           addUser(res.data.user.username, res.data.user.email, res.data.token);
           const cookies = new Cookies();
           cookies.set('trelloc token', res.data.token, { path: "/" });

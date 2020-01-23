@@ -21,7 +21,7 @@ const RegistrationFormWrapper = ({ addUser }) => {
         };
 
         axios
-          .post("http://localhost:8082/api/users/", data)
+          .post("users/", data)
           .then(res => {
             addUser(
               res.data.user.username,

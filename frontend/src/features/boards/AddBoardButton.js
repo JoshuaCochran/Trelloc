@@ -42,7 +42,7 @@ const AddBoardButton = ({ addBoard }) => {
             isActive: false
           };
           axios
-            .post("http://localhost:8082/api/boards", data)
+            .post("boards", data)
             .then(res => {
               addBoard(res.data.board._id, res.data.board.owner, boardTitle, true, false);
             })

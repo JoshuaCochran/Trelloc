@@ -5,8 +5,9 @@ import { Link } from "react-router-dom";
 const formStyle = {
   borderRadius: "3px",
   backgroundColor: "white",
+  minWidth: "250px",
   width: "20vw",
-  margin: "auto",
+  margin: "auto", 
   marginTop: "20vh",
   padding: "4px 8px"
 };

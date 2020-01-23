@@ -27,14 +27,14 @@ const buttonStyle = {
   marginBottom: "4px"
 };
 
-const BoardList = ({ boards, addBoard }) => {
+const BoardList = ({ boards, user, addBoard }) => {
   useEffect(() => {
-    axios.get("http://localhost:8082/api/boards", ).then(res => {
+    axios.get("boards", ).then(res => {
       res.data.map(board => {
         addBoard(board._id, board.owner, board.title, board.isPrivate, board.isActive)
       });
     });
-  }, []);
+  }, [user]);
 
   return (
     <div>
@@ -58,7 +58,8 @@ const BoardList = ({ boards, addBoard }) => {
 };
 
 const mapStateToProps = state => ({
-  boards: state.boards
+  boards: state.boards,
+  user: state.user,
 });
 
 const mapDispatch = { addBoard };

@@ -20,8 +20,8 @@
     "nodemon": "^2.0.2"
   },
   "scripts": {
-    "app2": "node app.js",
-    "start": "env-cmd -f ./.env nodemon app.js",
+    "start": "node app.js",
+    "app": "env-cmd -f ./.env nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

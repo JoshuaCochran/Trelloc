@@ -15,13 +15,13 @@ const scrollingWrapper = {
 
 const ListList = ({ addList, addCard, boardId, lists, cards }) => {
   useEffect(() => {
-    axios.get("http://localhost:8082/api/lists").then(res => {
+    axios.get("lists").then(res => {
       res.data.map(list => {
         addList(list._id, list.boardId, list.title, list.position);
       });
     });
 
-    axios.get("http://localhost:8082/api/cards").then(res => {
+    axios.get("cards").then(res => {
       res.data.map(card => {
         addCard(card._id, card.listId, card.title, card.description, card.position);
       });

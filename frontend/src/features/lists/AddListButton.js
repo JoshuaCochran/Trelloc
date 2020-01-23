@@ -44,7 +44,7 @@ const AddListButton = ({ lists, addList, boardId }) => {
             position: getNumLists(lists, boardId)
           };
           axios
-            .post("http://localhost:8082/api/lists", data)
+            .post("lists", data)
             .then(res => {
               addList(res.data.list._id, boardId, listTitle, getNumLists(lists, boardId));
             })

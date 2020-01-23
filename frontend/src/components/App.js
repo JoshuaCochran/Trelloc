@@ -30,17 +30,17 @@ function App({ user, addUser }) {
     const cookies = new Cookies();
     const token = cookies.get("trelloc token");
 
-    axios.defaults.baseURL = "https://localhost:8082";
+    axios.defaults.baseURL = "https://warm-sea-05824.herokuapp.com/api/";
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     axios.defaults.headers.post["Content-Type"] =
       "application/x-www-form-urlencoded";
 
     if (token) {
-      axios.get("http://localhost:8082/api/users/me").then(res => {
+      axios.get("users/me").then(res => {
         addUser(res.data.username, res.data.email, token);
       });
     }
-  }, [user]);
+  }, []);
 
   return (
     <div className="App">
