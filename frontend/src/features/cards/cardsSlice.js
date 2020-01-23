@@ -1,4 +1,5 @@
 import { createSlice } from "redux-starter-kit";
+import axios from "axios";
 
 const cardsSlice = createSlice({
   name: "cards",
@@ -40,3 +41,36 @@ const cardsSlice = createSlice({
 export const { addCard, deleteCard, moveCard, moveCards } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
+
+export const postCard = (listId, title, description, position) => dispatch => {
+  const data = {
+    listId: listId,
+    title: title,
+    description: "",
+    position: position
+  };
+  axios
+    .post("cards", data)
+    .then(res => {
+      dispatch(addCard(res.data.card._id, listId, title, position));
+    })
+    .catch(err => {
+      console.log("Error in CreateCard!");
+    });
+};
+
+export const fetchCards = () => dispatch => {
+  axios.get("cards").then(res => {
+    res.data.map(card => {
+      dispatch(
+        addCard(
+          card._id,
+          card.listId,
+          card.title,
+          card.description,
+          card.position
+        )
+      );
+    });
+  });
+};

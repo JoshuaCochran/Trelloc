@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { logout } from "./userSlice";
-import axios from "axios";
-import Cookies from "universal-cookie";
 import { Modal, Button } from "antd";
 
 const buttonStyle = {
@@ -26,16 +24,17 @@ const LogoutButton = ({ logout }) => {
     setVisible(false);
   };
 
-  const handleNo = e => {};
+  const handleNo = e => {
+    setVisible(false);
+  };
 
   return (
     <div>
       <Button
-        type="primary"
         onClick={showModal}
         style={buttonStyle}
         shape="circle"
-        icon="codepen"
+        icon="logout"
       ></Button>
       <Modal
         title="Logout"

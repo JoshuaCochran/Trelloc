@@ -55,14 +55,14 @@ const listsSlice = createSlice({
           const data = {
             boardId: state[key].boardId,
             title: state[key].title,
-            position: state[key].position,
-          }
+            position: state[key].position
+          };
           axios
-          .put("http://localhost:8082/api/lists/" + state[key].id, data)
-          .catch(err => {
-            console.log("Error in CreateBoard!");
-          });
-        })
+            .put("http://localhost:8082/api/lists/" + state[key].id, data)
+            .catch(err => {
+              console.log("Error in CreateBoard!");
+            });
+        });
       },
       prepare(listId, newPosition, newBoardId) {
         return { payload: { listId, newPosition, newBoardId } };
@@ -74,3 +74,27 @@ const listsSlice = createSlice({
 export const { addList, deleteList, moveList } = listsSlice.actions;
 
 export default listsSlice.reducer;
+
+export const fetchLists = () => dispatch => {
+  axios.get("lists").then(res => {
+    res.data.map(list => {
+      dispatch(addList(list._id, list.boardId, list.title, list.position));
+    });
+  });
+};
+
+export const postList = (boardId, title, position) => dispatch => {
+  const data = {
+    boardId: boardId,
+    title: title,
+    position: position
+  };
+  axios
+    .post("lists", data)
+    .then(res => {
+      dispatch(addList(res.data.list._id, boardId, title, position));
+    })
+    .catch(err => {
+      console.log("Error in CreateBoard!");
+    });
+};

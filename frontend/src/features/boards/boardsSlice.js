@@ -1,4 +1,5 @@
 import { createSlice } from "redux-starter-kit";
+import axios from "axios";
 
 const boardsSlice = createSlice({
   name: "boards",
@@ -28,14 +29,45 @@ const boardsSlice = createSlice({
       prepare(id, isActive) {
         return { payload: { id, isActive } };
       }
-    },
+    }
   }
 });
 
-export const {
-  addBoard,
-  deleteBoard,
-  setActive
-} = boardsSlice.actions;
+export const { addBoard, deleteBoard, setActive } = boardsSlice.actions;
 
 export default boardsSlice.reducer;
+
+export const postBoard = (title, isPrivate, isActive) => dispatch => {
+  const data = {
+    title: title,
+    isPrivate: isPrivate,
+    isActive: isActive
+  };
+
+  axios
+    .post("boards", data)
+    .then(res => {
+      dispatch(
+        addBoard(res.data.board._id, res.data.board.owner, title, true, false)
+      );
+    })
+    .catch(err => {
+      console.log("Error in CreateBoard!");
+    });
+};
+
+export const fetchBoards = () => dispatch => {
+  axios.get("boards").then(res => {
+    res.data.map(board => {
+      dispatch(
+        addBoard(
+          board._id,
+          board.owner,
+          board.title,
+          board.isPrivate,
+          board.isActive
+        )
+      );
+    });
+  });
+};

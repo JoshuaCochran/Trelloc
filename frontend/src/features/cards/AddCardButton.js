@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addCard } from "./cardsSlice";
+import { postCard } from "./cardsSlice";
 import { Form, Input, Button } from "antd";
-import axios from "axios";
 import { getNumCards } from "../../selectors/CardSelectors"
 
 const inputStyle = {
@@ -41,11 +40,11 @@ const addButtonStyle = {
   boxShadow: "none"
 };
 
-const mapDispatch = { addCard };
+const mapDispatch = { postCard };
 
 const AddCardButton = ({
   cards,
-  addCard,
+  postCard,
   listId,
   isVisible,
   setIsVisible,
@@ -63,20 +62,7 @@ const AddCardButton = ({
           e.preventDefault();
           if (!cardTitle.trim()) return;
 
-          const data = {
-            listId: listId,
-            title: cardTitle,
-            description: "",
-            position: getNumCards(cards, listId)
-          };
-          axios
-            .post("http://localhost:8082/api/cards", data)
-            .then(res => {
-              addCard(res.data.card._id, listId, cardTitle, getNumCards(cards, listId));
-            })
-            .catch(err => {
-              console.log("Error in CreateCard!");
-            });
+          postCard(listId, cardTitle, "", getNumCards(cards, listId));
 
           setCardTitle("");
           setIsVisible(false);

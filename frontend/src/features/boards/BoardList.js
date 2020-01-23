@@ -4,7 +4,7 @@ import { Icon } from "antd";
 import AddBoardButton from "./AddBoardButton";
 import BoardButton from "./BoardButton";
 import axios from "axios";
-import { addBoard } from "./boardsSlice";
+import { fetchBoards } from "./boardsSlice";
 
 const headerStyle = {
   color: "white",
@@ -27,13 +27,9 @@ const buttonStyle = {
   marginBottom: "4px"
 };
 
-const BoardList = ({ boards, user, addBoard }) => {
+const BoardList = ({ boards, user, fetchBoards }) => {
   useEffect(() => {
-    axios.get("boards", ).then(res => {
-      res.data.map(board => {
-        addBoard(board._id, board.owner, board.title, board.isPrivate, board.isActive)
-      });
-    });
+    fetchBoards();
   }, [user]);
 
   return (
@@ -62,6 +58,6 @@ const mapStateToProps = state => ({
   user: state.user,
 });
 
-const mapDispatch = { addBoard };
+const mapDispatch = { fetchBoards };
 
 export default connect(mapStateToProps, mapDispatch)(BoardList);

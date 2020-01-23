@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addList } from "./listsSlice";
+import { postList } from "./listsSlice";
 import { Form, Input, Button } from "antd";
-import { getNumLists } from "../../selectors/ListSelectors"
-import axios from "axios";
+import { getNumLists } from "../../selectors/ListSelectors";
 
 const buttonStyle = {
   marginLeft: "8px",
@@ -22,9 +21,9 @@ const formStyle = {
   marginLeft: "8px"
 };
 
-const mapDispatch = { addList };
+const mapDispatch = { postList };
 
-const AddListButton = ({ lists, addList, boardId }) => {
+const AddListButton = ({ lists, postList, boardId }) => {
   const [showingInput, setShowingInput] = useState(false);
   const [listTitle, setListTitle] = useState("");
 
@@ -38,19 +37,7 @@ const AddListButton = ({ lists, addList, boardId }) => {
           e.preventDefault();
           if (!listTitle.trim()) return;
 
-          const data = {
-            boardId: boardId,
-            title: listTitle,
-            position: getNumLists(lists, boardId)
-          };
-          axios
-            .post("lists", data)
-            .then(res => {
-              addList(res.data.list._id, boardId, listTitle, getNumLists(lists, boardId));
-            })
-            .catch(err => {
-              console.log("Error in CreateBoard!");
-            });
+          postList(boardId, listTitle, getNumLists(lists, boardId));
 
           setListTitle("");
           setShowingInput(false);

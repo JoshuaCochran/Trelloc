@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addBoard } from "./boardsSlice";
+import { postBoard } from "./boardsSlice";
 import { Form, Input, Button } from "antd";
-import axios from "axios";
 
 const buttonStyle = {
   marginRight: "8px",
@@ -20,9 +19,9 @@ const formStyle = {
   marginLeft: "8px"
 };
 
-const mapDispatch = { addBoard };
+const mapDispatch = { postBoard };
 
-const AddBoardButton = ({ addBoard }) => {
+const AddBoardButton = ({ postBoard }) => {
   const [showingInput, setShowingInput] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
 
@@ -36,20 +35,8 @@ const AddBoardButton = ({ addBoard }) => {
           e.preventDefault();
           if (!boardTitle.trim()) return;
 
-          const data = {
-            title: boardTitle,
-            isPrivate: true,
-            isActive: false
-          };
-          axios
-            .post("boards", data)
-            .then(res => {
-              addBoard(res.data.board._id, res.data.board.owner, boardTitle, true, false);
-            })
-            .catch(err => {
-              console.log("Error in CreateBoard!");
-            });
-
+          postBoard(boardTitle, true, false);
+         
           setBoardTitle("");
           setShowingInput(false);
         }}

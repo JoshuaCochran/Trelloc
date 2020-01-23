@@ -4,7 +4,7 @@ import Header from "../features/header/Header";
 import { Layout } from "antd";
 import LoggedInRouter from "../features/router/LoggedInRouter";
 import LoggedOutRouter from "../features/router/LoggedOutRouter";
-import { isLoggedIn, getAuthToken } from "../selectors/UserSelectors";
+import { isLoggedIn } from "../selectors/UserSelectors";
 import { connect } from "react-redux";
 import { fetchUserDetails } from "../features/user/userSlice";
 import axios from "axios";

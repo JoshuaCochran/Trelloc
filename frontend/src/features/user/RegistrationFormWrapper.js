@@ -1,11 +1,9 @@
 import React, { useState, useCallback } from "react";
 import RegistrationForm from "./RegistrationForm";
 import { connect } from "react-redux";
-import { addUser } from "./userSlice";
-import axios from "axios";
-import Cookies from "universal-cookie";
+import { register } from "./userSlice";
 
-const RegistrationFormWrapper = ({ addUser }) => {
+const RegistrationFormWrapper = ({ register }) => {
   const [formRef, setFormRef] = useState(null);
 
   const handleSubmit = e => {
@@ -14,28 +12,7 @@ const RegistrationFormWrapper = ({ addUser }) => {
       if (err) {
         return;
       } else {
-        const data = {
-          username: values.username,
-          email: values.email,
-          password: values.password
-        };
-
-        axios
-          .post("users/", data)
-          .then(res => {
-            addUser(
-              res.data.user.username,
-              res.data.user.email,
-              res.data.token
-            );
-            const cookies = new Cookies();
-            cookies.set("trelloc token", res.data.token, { path: "/" });
-            console.log(cookies.get("trelloc token"));
-          })
-          .catch(err => {
-            console.log("Registration error!");
-          });
-        console.log("Received values of form: ", values);
+        register(values.username, values.email, values.password);
         formRef.resetFields();
       }
     });
@@ -50,6 +27,6 @@ const RegistrationFormWrapper = ({ addUser }) => {
   return <RegistrationForm ref={saveFormRef} onSubmit={handleSubmit} />;
 };
 
-const mapDispatch = { addUser };
+const mapDispatch = { register };
 
 export default connect(null, mapDispatch)(RegistrationFormWrapper);

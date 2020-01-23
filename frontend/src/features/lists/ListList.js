@@ -2,9 +2,8 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import List from "./List";
 import AddListButton from "./AddListButton";
-import { addList } from "./listsSlice";
-import { addCard } from "../cards/cardsSlice";
-import axios from "axios";
+import { fetchLists } from "./listsSlice";
+import { fetchCards } from "../cards/cardsSlice";
 
 const scrollingWrapper = {
   display: "flex",
@@ -13,19 +12,10 @@ const scrollingWrapper = {
   height: "calc(100vh - 45px)"
 };
 
-const ListList = ({ addList, addCard, boardId, lists, cards }) => {
+const ListList = ({ fetchLists, fetchCards, boardId, lists, cards }) => {
   useEffect(() => {
-    axios.get("lists").then(res => {
-      res.data.map(list => {
-        addList(list._id, list.boardId, list.title, list.position);
-      });
-    });
-
-    axios.get("cards").then(res => {
-      res.data.map(card => {
-        addCard(card._id, card.listId, card.title, card.description, card.position);
-      });
-    });
+    fetchLists();
+    fetchCards();
   }, []);
 
   return (
@@ -52,6 +42,6 @@ const mapStateToProps = state => ({
   cards: state.cards
 });
 
-const mapDispatch = { addList, addCard };
+const mapDispatch = { fetchLists, fetchCards };
 
 export default connect(mapStateToProps, mapDispatch)(ListList);

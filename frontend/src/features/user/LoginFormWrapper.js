@@ -1,12 +1,9 @@
 import React, { useState, useCallback } from "react";
 import LoginForm from "./LoginForm";
 import { connect } from "react-redux";
-import { addUser } from "./userSlice";
 import { login } from "./userSlice";
-import axios from "axios";
-import Cookies from "universal-cookie"
 
-const LoginFormWrapper = ({ addUser, login }) => {
+const LoginFormWrapper = ({ login }) => {
   const [formRef, setFormRef] = useState(null);
 
   const handleSubmit = e => {
@@ -31,6 +28,6 @@ const LoginFormWrapper = ({ addUser, login }) => {
   return <LoginForm ref={saveFormRef} onSubmit={handleSubmit} />;
 };
 
-const mapDispatch = { addUser, login };
+const mapDispatch = { login };
 
 export default connect(null, mapDispatch)(LoginFormWrapper);

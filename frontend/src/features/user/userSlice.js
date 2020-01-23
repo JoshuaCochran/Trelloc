@@ -68,3 +68,24 @@ export const logout = () => dispatch => {
       console.log("Logout error!");
     });
 };
+
+export const register = (username, email, password) => dispatch => {
+  const data = {
+    username: username,
+    email: email,
+    password: password
+  };
+
+  axios
+    .post("users/", data)
+    .then(res => {
+      dispatch(
+        addUser(res.data.user.username, res.data.user.email, res.data.token)
+      );
+      const cookies = new Cookies();
+      cookies.set("trelloc token", res.data.token, { path: "/" });
+    })
+    .catch(err => {
+      console.log("Registration error!");
+    });
+};
