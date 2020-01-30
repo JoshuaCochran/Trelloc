@@ -34,11 +34,60 @@ const cardsSlice = createSlice({
             state[key].listId = action.payload.swapListId;
         });
       }
+    },
+    reorderCards: {
+      reducer(state, action) {
+        const { id, listId, position } = action.payload;
+
+        let orderedCards = [];
+        Object.keys(state).map(key =>
+          state[key].listId === listId
+            ? orderedCards.push([state[key], key])
+            : null
+        );
+        orderedCards.sort((a, b) => a[0].position - b[0].position);
+
+        if (state[id].listId !== listId) {
+          state[id].position = orderedCards.length;
+          state[id].listId = listId;
+          orderedCards.push([state[id], id]);
+        }
+
+        if (state[id].position < orderedCards.length - 1)
+          for (let i = state[id].position + 1; i <= position; i++)
+            orderedCards[i][0].position -= 1;
+        else
+          for (let i = position; i < state[id].position; i++)
+            orderedCards[i][0].position += 1;
+        state[id].position = position;
+
+        orderedCards.forEach(
+          cardArray => (state[cardArray[1]].position = cardArray[0].position)
+        );
+
+        Object.keys(state).map(key => {
+          const data = {
+            listId: state[key].listId,
+            title: state[key].title,
+            position: state[key].position
+          };
+          axios
+            .put("cards/" + state[key].id, data)
+            .catch(err => {
+              console.log("Error in reorderCards!");
+            });
+        });
+      },
+      prepare(id, listId, position) {
+        return {
+          payload: { id, listId, position }
+        };
+      }
     }
   }
 });
 
-export const { addCard, deleteCard, moveCard, moveCards } = cardsSlice.actions;
+export const { addCard, deleteCard, moveCard, moveCards, reorderCards } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
 
@@ -52,7 +101,7 @@ export const postCard = (listId, title, description, position) => dispatch => {
   axios
     .post("cards", data)
     .then(res => {
-      dispatch(addCard(res.data.card._id, listId, title, position));
+      dispatch(addCard(res.data.card._id, listId, title, description, position));
     })
     .catch(err => {
       console.log("Error in CreateCard!");

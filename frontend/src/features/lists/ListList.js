@@ -4,6 +4,7 @@ import List from "./List";
 import AddListButton from "./AddListButton";
 import { fetchLists } from "./listsSlice";
 import { fetchCards } from "../cards/cardsSlice";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const scrollingWrapper = {
   display: "flex",

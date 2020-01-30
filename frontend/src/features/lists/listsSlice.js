@@ -58,7 +58,7 @@ const listsSlice = createSlice({
             position: state[key].position
           };
           axios
-            .put("http://localhost:8082/api/lists/" + state[key].id, data)
+            .put("lists/" + state[key].id, data)
             .catch(err => {
               console.log("Error in CreateBoard!");
             });
@@ -66,6 +66,16 @@ const listsSlice = createSlice({
       },
       prepare(listId, newPosition, newBoardId) {
         return { payload: { listId, newPosition, newBoardId } };
+      }
+    },
+    reoderList: {
+      reducer(state, action) {
+        const { id, position } = action.payload;
+
+        state[id].position = position;
+      },
+      prepare(listId, newPosition) {
+        return { payload: { listId, newPosition } }
       }
     }
   }
