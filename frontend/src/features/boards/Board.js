@@ -6,7 +6,7 @@ import { reorderCards } from "../cards/cardsSlice";
 
 const Board = ({ id, lists, reorderCards }) => {
   const onDragEnd = result => {
-    const { draggableId, source, destination } = result;
+    const { draggableId, type, source, destination } = result;
     console.log(result);
 
     if (!destination) {
@@ -17,15 +17,28 @@ const Board = ({ id, lists, reorderCards }) => {
       return;
     }
 
-    reorderCards(draggableId, destination.droppableId, destination.index);
+    if (type === "CARD")
+    {
+      console.log("I'm a card!")
+      reorderCards(draggableId, source.droppableId, destination.droppableId, source.index, destination.index);
+    }
+    else
+      return;
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <ListList
-        boardId={id}
-        lists={Object.values(lists).filter(list => list.boardId === id)}
-      />
+      <Droppable droppableId={id} type="LIST">
+        {(provided, snapshot) => (
+          <div ref={provided.innerRef}>
+            <ListList
+              boardId={id}
+              lists={Object.values(lists).filter(list => list.boardId === id)}
+            />
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
     </DragDropContext>
   );
 };

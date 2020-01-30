@@ -23,7 +23,7 @@ const CardList = ({ cards }) => (
         return a.position - b.position;
       })
       .map(card => (
-        <Draggable key={card.id} draggableId={card.id} index={card.position}>
+        <Draggable key={card.id} draggableId={card.id} index={card.position} type="CARD">
           {(provided, snapshot) => (
             <div
               ref={provided.innerRef}

@@ -72,56 +72,56 @@ const List = ({ id, title, position, cards, reorderCards }) => {
   };
 
   return (
-    <Droppable droppableId={id}>
-      {(provided, snapshot) => (
-        <div ref={provided.innerRef}>
-          <div style={listWrapper} ref={wrapperRef}>
-            <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
-              <div style={listContent}>
-                <div style={listHeader}>
-                  {title}{" "}
-                  <ListOptionsDropDown
-                    style={ellipsisStyle}
-                    setIsVisible={setIsTopVisible}
-                    listId={id}
-                  />
-                </div>
-                <div style={buttonStyle}>
-                  <AddCardButton
-                    listId={id}
-                    isVisible={isTopVisible}
-                    setIsVisible={setIsTopVisible}
-                    fromDropDown={true}
-                  >
-                    Add another card
-                  </AddCardButton>
-                </div>
-                <div
-                  style={{
-                    zIndex: 10,
-                    maxHeight: "80vh",
-                    overflowY: "scroll"
-                  }}
-                >
-                  <CardList cards={cards} />
-                </div>
-                <div style={buttonStyle}>
-                  <AddCardButton
-                    listId={id}
-                    isVisible={isBotVisible}
-                    setIsVisible={setIsBotVisible}
-                    fromDropDown={false}
-                  >
-                    Add another card
-                  </AddCardButton>
-                </div>
-              </div>
-            </Card>
+    <div style={listWrapper} ref={wrapperRef}>
+      <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
+        <div style={listContent}>
+          <div style={listHeader}>
+            {title}{" "}
+            <ListOptionsDropDown
+              style={ellipsisStyle}
+              setIsVisible={setIsTopVisible}
+              listId={id}
+            />
           </div>
-          {provided.placeholder}
+          <div style={buttonStyle}>
+            <AddCardButton
+              listId={id}
+              isVisible={isTopVisible}
+              setIsVisible={setIsTopVisible}
+              fromDropDown={true}
+            >
+              Add another card
+            </AddCardButton>
+          </div>
+          <div
+            style={{
+              zIndex: 10,
+              maxHeight: "80vh",
+              overflowY: "scroll"
+            }}
+          >
+            <Droppable droppableId={id} type="CARD">
+              {(provided, snapshot) => (
+                <div ref={provided.innerRef} style={{ minHeight: "5vh" }}>
+                  <CardList cards={cards} />
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </div>
+          <div style={buttonStyle}>
+            <AddCardButton
+              listId={id}
+              isVisible={isBotVisible}
+              setIsVisible={setIsBotVisible}
+              fromDropDown={false}
+            >
+              Add another card
+            </AddCardButton>
+          </div>
         </div>
-      )}
-    </Droppable>
+      </Card>
+    </div>
   );
 };
 
