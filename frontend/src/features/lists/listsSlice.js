@@ -82,6 +82,19 @@ const listsSlice = createSlice({
         orderedLists.forEach((listArray, i) => {
           state[listArray[1]].position = i;
         });
+
+        Object.keys(state).map(key => {
+          if (state[key].boardId === boardId) {
+            const data = {
+              boardId: state[key].boardId,
+              title: state[key].title,
+              position: state[key].position
+            };
+            axios.put("lists/" + state[key].id, data).catch(err => {
+              console.log("Error in reorderLists!");
+            });
+          }
+        });
       },
       prepare(id, boardId, oldPosition, newPosition) {
         return { payload: { id, boardId, oldPosition, newPosition } };
@@ -90,7 +103,12 @@ const listsSlice = createSlice({
   }
 });
 
-export const { addList, deleteList, moveList, reorderLists } = listsSlice.actions;
+export const {
+  addList,
+  deleteList,
+  moveList,
+  reorderLists
+} = listsSlice.actions;
 
 export default listsSlice.reducer;
 
