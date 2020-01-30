@@ -7,17 +7,49 @@ const listsSlice = createSlice({
   reducers: {
     addList: {
       reducer(state, action) {
-        const { id, boardId, title, position } = action.payload;
+        const { owner, id, boardId, title, position } = action.payload;
 
-        state[id] = { id, boardId, title, position };
+        state[id] = { owner, id, boardId, title, position };
       },
-      prepare(id, boardId, title, position) {
-        return { payload: { id, boardId, title, position } };
+      prepare(owner, id, boardId, title, position) {
+        return { payload: { owner, id, boardId, title, position } };
       }
     },
     deleteList: {
       reducer(state, action) {
-        delete state[action.payload.id];
+        const id = action.payload;
+        const boardId = state[id].boardId;
+
+        let orderedLists = [];
+        Object.keys(state).map(key => {
+          if (state[key].boardId === boardId)
+            orderedLists.push([state[key], key]);
+        });
+        orderedLists.sort((a, b) => a[0].position - b[0].position);
+
+        orderedLists.splice(state[id].position, 1);
+        delete state[id];
+
+        orderedLists.forEach((listArray, i) => {
+          state[listArray[1]].position = i;
+        });
+
+        Object.keys(state).map(key => {
+          if (state[key].boardId === boardId) {
+            const data = {
+              boardId: state[key].boardId,
+              title: state[key].title,
+              position: state[key].position
+            };
+            axios.put("lists/" + state[key].id, data).catch(err => {
+              console.log("Error in deleteLists!");
+            });
+          }
+        });
+
+        axios.delete("lists/" + id).catch(err => {
+          console.log("Error in deleteList!");
+        });
       }
     },
     moveList: {
@@ -68,7 +100,13 @@ const listsSlice = createSlice({
     },
     reorderLists: {
       reducer(state, action) {
-        const { id, boardId, oldPosition, newPosition } = action.payload;
+        const {
+          id,
+          boardId,
+          oldPosition,
+          newPosition,
+          deleting
+        } = action.payload;
 
         let orderedLists = [];
         Object.keys(state).map(key => {
@@ -78,7 +116,10 @@ const listsSlice = createSlice({
         orderedLists.sort((a, b) => a[0].position - b[0].position);
 
         const [removed] = orderedLists.splice(oldPosition, 1);
-        orderedLists.splice(newPosition, 0, removed);
+
+        if (!deleting) orderedLists.splice(newPosition, 0, removed);
+        else delete state[id];
+
         orderedLists.forEach((listArray, i) => {
           state[listArray[1]].position = i;
         });
@@ -96,8 +137,8 @@ const listsSlice = createSlice({
           }
         });
       },
-      prepare(id, boardId, oldPosition, newPosition) {
-        return { payload: { id, boardId, oldPosition, newPosition } };
+      prepare(id, boardId, oldPosition, newPosition, deleting) {
+        return { payload: { id, boardId, oldPosition, newPosition, deleting } };
       }
     }
   }
@@ -115,7 +156,7 @@ export default listsSlice.reducer;
 export const fetchLists = () => dispatch => {
   axios.get("lists").then(res => {
     res.data.map(list => {
-      dispatch(addList(list._id, list.boardId, list.title, list.position));
+      dispatch(addList(list.owner, list._id, list.boardId, list.title, list.position));
     });
   });
 };
@@ -129,7 +170,7 @@ export const postList = (boardId, title, position) => dispatch => {
   axios
     .post("lists", data)
     .then(res => {
-      dispatch(addList(res.data.list._id, boardId, title, position));
+      dispatch(addList(res.data.owner, res.data.list._id, boardId, title, position));
     })
     .catch(err => {
       console.log("Error in CreateBoard!");

@@ -7,13 +7,13 @@ const cardsSlice = createSlice({
   reducers: {
     addCard: {
       reducer(state, action) {
-        const { id, listId, title, description, position } = action.payload;
+        const { owner, id, listId, title, description, position } = action.payload;
 
-        state[id] = { id, listId, title, description, position };
+        state[id] = { owner, id, listId, title, description, position };
       },
-      prepare(id, listId, title, description, position) {
+      prepare(owner, id, listId, title, description, position) {
         return {
-          payload: { id, listId, title, description, position }
+          payload: { owner, id, listId, title, description, position }
         };
       }
     },
@@ -124,7 +124,7 @@ export const postCard = (listId, title, description, position) => dispatch => {
     .post("cards", data)
     .then(res => {
       dispatch(
-        addCard(res.data.card._id, listId, title, description, position)
+        addCard(res.data.owner, res.data.card._id, listId, title, description, position)
       );
     })
     .catch(err => {
@@ -137,6 +137,7 @@ export const fetchCards = () => dispatch => {
     res.data.map(card => {
       dispatch(
         addCard(
+          card.owner,
           card._id,
           card.listId,
           card.title,

@@ -14,10 +14,6 @@ const Board = ({ id, lists, reorderCards, reorderLists }) => {
       return;
     }
 
-    if (destination.index === source.index) {
-      return;
-    }
-
     if (type === "CARD") {
       console.log("I'm a card!");
       reorderCards(
@@ -33,7 +29,8 @@ const Board = ({ id, lists, reorderCards, reorderLists }) => {
         draggableId,
         source.droppableId,
         source.index,
-        destination.index
+        destination.index,
+        false
       );
     }
   };

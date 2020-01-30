@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const CardSchema = new mongoose.Schema({
+    owner: {
+        type: String,
+        required: true
+    },
     listId: {
         type: String,
         required: true

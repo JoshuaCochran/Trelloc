@@ -21,6 +21,7 @@ const ListOptionsMenu = ({
       <ListOptionsMenuMain
         setIsVisible={setIsVisible}
         setShowingMoveList={setShowingMoveList}
+        listId={listId}
       />
     );
 };

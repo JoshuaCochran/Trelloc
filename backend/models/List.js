@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const ListSchema = new mongoose.Schema({
+    owner: {
+        type: String,
+        required: true
+    },
     boardId: {
         type: String,
         required: true
