@@ -22,19 +22,6 @@ const cardsSlice = createSlice({
         delete state[action.payload.id];
       }
     },
-    moveCard: {
-      reducer(state, action) {
-        state[action.payload.id].listId = action.payload.listId;
-      }
-    },
-    moveCards: {
-      reducer(state, action) {
-        Object.keys(state).forEach(key => {
-          if (state[key].listId === action.payload.listId)
-            state[key].listId = action.payload.swapListId;
-        });
-      }
-    },
     reorderCards: {
       reducer(state, action) {
         const {
@@ -44,9 +31,8 @@ const cardsSlice = createSlice({
           oldPosition,
           newPosition
         } = action.payload;
-        console.log(action.payload);
 
-        // First we make two arrays. 
+        // First we make two arrays.
         let orderedOldCards = [];
         let orderedNewCards = [];
         Object.keys(state).map(key => {
@@ -67,7 +53,7 @@ const cardsSlice = createSlice({
           const [removed] = orderedOldCards.splice(oldPosition, 1);
           // Then we splice it back in at its new position
           orderedOldCards.splice(newPosition, 0, removed);
-          // Now, we update the state with the new card positions 
+          // Now, we update the state with the new card positions
           // We didn't actually change any .position elements, but they are sorted by index
           // So we simply update the position of the cards in state to match their index in orderedOldCards
           orderedOldCards.forEach((cardArray, i) => {
@@ -86,22 +72,27 @@ const cardsSlice = createSlice({
 
           // Then splice the card into the orderedNewCards array we made earlier
           orderedNewCards.splice(newPosition, 0, removed);
-          // and update the state 
+          // and update the state
           orderedNewCards.forEach((cardArray, i) => {
             state[cardArray[1]].position = i;
           });
         }
 
-        /*Object.keys(state).map(key => {
-          const data = {
-            listId: state[key].listId,
-            title: state[key].title,
-            position: state[key].position
-          };
-          axios.put("cards/" + state[key].id, data).catch(err => {
-            console.log("Error in reorderCards!");
-          });
-        });*/
+        Object.keys(state).map(key => {
+          if (
+            state[key].listId === oldListId ||
+            state[key].listId === newListId
+          ) {
+            const data = {
+              listId: state[key].listId,
+              title: state[key].title,
+              position: state[key].position
+            };
+            axios.put("cards/" + state[key].id, data).catch(err => {
+              console.log("Error in reorderCards!");
+            });
+          }
+        });
       },
       prepare(id, oldListId, newListId, oldPosition, newPosition) {
         return {

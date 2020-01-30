@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import ListList from "../lists/ListList";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { reorderCards } from "../cards/cardsSlice";
+import { reorderLists } from "../lists/listsSlice";
 
-const Board = ({ id, lists, reorderCards }) => {
+const Board = ({ id, lists, reorderCards, reorderLists }) => {
   const onDragEnd = result => {
     const { draggableId, type, source, destination } = result;
     console.log(result);
@@ -17,18 +18,29 @@ const Board = ({ id, lists, reorderCards }) => {
       return;
     }
 
-    if (type === "CARD")
-    {
-      console.log("I'm a card!")
-      reorderCards(draggableId, source.droppableId, destination.droppableId, source.index, destination.index);
+    if (type === "CARD") {
+      console.log("I'm a card!");
+      reorderCards(
+        draggableId,
+        source.droppableId,
+        destination.droppableId,
+        source.index,
+        destination.index
+      );
+    } else if (type === "LIST") {
+      console.log("I'm a list!");
+      reorderLists(
+        draggableId,
+        source.droppableId,
+        source.index,
+        destination.index
+      );
     }
-    else
-      return;
   };
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId={id} type="LIST">
+      <Droppable droppableId={id} type="LIST" direction="horizontal">
         {(provided, snapshot) => (
           <div ref={provided.innerRef}>
             <ListList
@@ -47,6 +59,6 @@ const mapStateToProps = state => ({
   lists: state.lists
 });
 
-const mapDispatch = { reorderCards };
+const mapDispatch = { reorderCards, reorderLists };
 
 export default connect(mapStateToProps, mapDispatch)(Board);

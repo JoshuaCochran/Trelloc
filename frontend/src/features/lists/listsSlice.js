@@ -57,31 +57,40 @@ const listsSlice = createSlice({
             title: state[key].title,
             position: state[key].position
           };
-          axios
-            .put("lists/" + state[key].id, data)
-            .catch(err => {
-              console.log("Error in CreateBoard!");
-            });
+          axios.put("lists/" + state[key].id, data).catch(err => {
+            console.log("Error in CreateBoard!");
+          });
         });
       },
       prepare(listId, newPosition, newBoardId) {
         return { payload: { listId, newPosition, newBoardId } };
       }
     },
-    reoderList: {
+    reorderLists: {
       reducer(state, action) {
-        const { id, position } = action.payload;
+        const { id, boardId, oldPosition, newPosition } = action.payload;
 
-        state[id].position = position;
+        let orderedLists = [];
+        Object.keys(state).map(key => {
+          if (state[key].boardId === boardId)
+            orderedLists.push([state[key], key]);
+        });
+        orderedLists.sort((a, b) => a[0].position - b[0].position);
+
+        const [removed] = orderedLists.splice(oldPosition, 1);
+        orderedLists.splice(newPosition, 0, removed);
+        orderedLists.forEach((listArray, i) => {
+          state[listArray[1]].position = i;
+        });
       },
-      prepare(listId, newPosition) {
-        return { payload: { listId, newPosition } }
+      prepare(id, boardId, oldPosition, newPosition) {
+        return { payload: { id, boardId, oldPosition, newPosition } };
       }
     }
   }
 });
 
-export const { addList, deleteList, moveList } = listsSlice.actions;
+export const { addList, deleteList, moveList, reorderLists } = listsSlice.actions;
 
 export default listsSlice.reducer;
 
