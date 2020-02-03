@@ -1,7 +1,8 @@
 import React from "react";
-import { Menu } from "antd";
+import { Menu, Modal } from "antd";
 import { connect } from "react-redux";
 import { deleteList } from "../lists/listsSlice";
+const { confirm } = Modal;
 
 const menuStyle = {
   width: "304px",
@@ -45,6 +46,16 @@ const menuItemStyle = {
   color: "#172b4d"
 };
 
+const showConfirm = (listId, deleteList) => {
+  confirm({
+    content: "Are you sure you want to delete this list?",
+    onOk() {
+      deleteList(listId);
+    },
+    onCancel() {}
+  });
+};
+
 const handleClick = (
   e,
   setIsVisible,
@@ -55,8 +66,7 @@ const handleClick = (
   if (e.key === "1") setIsVisible(true);
   else if (e.key === "3") setShowingMoveList(true);
   else if (e.key === "8") {
-    console.log("Pressed archive!")
-    deleteList(listId);
+    showConfirm(listId, deleteList);
   }
 };
 

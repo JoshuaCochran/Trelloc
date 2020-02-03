@@ -7,7 +7,14 @@ const cardsSlice = createSlice({
   reducers: {
     addCard: {
       reducer(state, action) {
-        const { owner, id, listId, title, description, position } = action.payload;
+        const {
+          owner,
+          id,
+          listId,
+          title,
+          description,
+          position
+        } = action.payload;
 
         state[id] = { owner, id, listId, title, description, position };
       },
@@ -19,7 +26,40 @@ const cardsSlice = createSlice({
     },
     deleteCard: {
       reducer(state, action) {
-        delete state[action.payload.id];
+        const id = action.payload;
+        const listId = state[id].listId;
+
+        let orderedCards = [];
+        Object.keys(state).map(key => {
+          if (state[key].listId === state[id].listId)
+            orderedCards.push([state[key], key]);
+        });
+
+        orderedCards.sort((a, b) => a[0].position - b[0].position);
+
+        const [removed] = orderedCards.splice(state[id].position, 1);
+        delete state[id];
+
+        orderedCards.forEach((cardArray, i) => {
+          state[cardArray[1]].position = i;
+        });
+
+        Object.keys(state).map(key => {
+          if (state[key].listId === listId) {
+            const data = {
+              listId: state[key].listId,
+              title: state[key].title,
+              position: state[key].position
+            };
+            axios.put("cards/" + state[key].id, data).catch(err => {
+              console.log("Error in reorderCards!");
+            });
+          }
+        });
+
+        axios.delete("cards/" + id).catch(err => {
+          console.log("Error in deleteCard!");
+        });
       }
     },
     reorderCards: {
@@ -124,7 +164,14 @@ export const postCard = (listId, title, description, position) => dispatch => {
     .post("cards", data)
     .then(res => {
       dispatch(
-        addCard(res.data.owner, res.data.card._id, listId, title, description, position)
+        addCard(
+          res.data.owner,
+          res.data.card._id,
+          listId,
+          title,
+          description,
+          position
+        )
       );
     })
     .catch(err => {

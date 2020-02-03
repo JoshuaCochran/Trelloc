@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { logout } from "./userSlice";
-import { Modal, Button } from "antd";
+import { Button, Modal } from "antd";
+const { confirm } = Modal;
 
 const buttonStyle = {
   display: "inline-block",
@@ -13,40 +14,23 @@ const buttonStyle = {
 };
 
 const LogoutButton = ({ logout }) => {
-  const [visible, setVisible] = useState(false);
-
-  const showModal = () => {
-    setVisible(true);
-  };
-
-  const handleYes = e => {
-    logout();
-    setVisible(false);
-  };
-
-  const handleNo = e => {
-    setVisible(false);
+  const showConfirm = () => {
+    confirm({
+      content: "Are you sure you want to log out?",
+      onOk() {
+        logout();
+      },
+      onCancel() {}
+    });
   };
 
   return (
-    <div>
-      <Button
-        onClick={showModal}
-        style={buttonStyle}
-        shape="circle"
-        icon="logout"
-      ></Button>
-      <Modal
-        title="Logout"
-        visible={visible}
-        onOk={handleYes}
-        okText="Yes"
-        onCancel={handleNo}
-        cancelText="No"
-      >
-        <p>Are you sure you want to log out?</p>
-      </Modal>
-    </div>
+    <Button
+      onClick={showConfirm}
+      style={buttonStyle}
+      shape="circle"
+      icon="logout"
+    />
   );
 };
 

@@ -100,13 +100,7 @@ const listsSlice = createSlice({
     },
     reorderLists: {
       reducer(state, action) {
-        const {
-          id,
-          boardId,
-          oldPosition,
-          newPosition,
-          deleting
-        } = action.payload;
+        const { id, boardId, oldPosition, newPosition } = action.payload;
 
         let orderedLists = [];
         Object.keys(state).map(key => {
@@ -116,10 +110,7 @@ const listsSlice = createSlice({
         orderedLists.sort((a, b) => a[0].position - b[0].position);
 
         const [removed] = orderedLists.splice(oldPosition, 1);
-
-        if (!deleting) orderedLists.splice(newPosition, 0, removed);
-        else delete state[id];
-
+        orderedLists.splice(newPosition, 0, removed);
         orderedLists.forEach((listArray, i) => {
           state[listArray[1]].position = i;
         });
@@ -137,8 +128,8 @@ const listsSlice = createSlice({
           }
         });
       },
-      prepare(id, boardId, oldPosition, newPosition, deleting) {
-        return { payload: { id, boardId, oldPosition, newPosition, deleting } };
+      prepare(id, boardId, oldPosition, newPosition) {
+        return { payload: { id, boardId, oldPosition, newPosition } };
       }
     }
   }
@@ -156,7 +147,9 @@ export default listsSlice.reducer;
 export const fetchLists = () => dispatch => {
   axios.get("lists").then(res => {
     res.data.map(list => {
-      dispatch(addList(list.owner, list._id, list.boardId, list.title, list.position));
+      dispatch(
+        addList(list.owner, list._id, list.boardId, list.title, list.position)
+      );
     });
   });
 };
@@ -170,7 +163,9 @@ export const postList = (boardId, title, position) => dispatch => {
   axios
     .post("lists", data)
     .then(res => {
-      dispatch(addList(res.data.owner, res.data.list._id, boardId, title, position));
+      dispatch(
+        addList(res.data.owner, res.data.list._id, boardId, title, position)
+      );
     })
     .catch(err => {
       console.log("Error in CreateBoard!");

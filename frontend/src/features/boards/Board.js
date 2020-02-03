@@ -30,7 +30,6 @@ const Board = ({ id, lists, reorderCards, reorderLists }) => {
         source.droppableId,
         source.index,
         destination.index,
-        false
       );
     }
   };
