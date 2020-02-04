@@ -16,7 +16,12 @@ const boardsSlice = createSlice({
     },
     deleteBoard: {
       reducer(state, action) {
-        delete state[action.payload.id];
+        const id = action.payload;
+        delete state[id];
+
+        axios.delete("boards/" + id).catch(err => {
+          console.log("Error in deleteBoard!");
+        });
       }
     },
     setActive: {

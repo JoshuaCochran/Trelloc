@@ -10,8 +10,8 @@ export const getObjectIds = (state) => {
   return state.map(item => item.id);
 }
 
-export const getTitle = (state) => { 
-  return state.title;
+export const getTitle = (state, id) => { 
+  return state[id].title;
 }
 
 export const getId = (state) => {

@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { fetchUserDetails } from "../features/user/userSlice";
 import axios from "axios";
 import Cookies from "universal-cookie";
+import { fetchBoards } from "../features/boards/boardsSlice";
 
 const layoutStyle = {
   backgroundColor: "black",
@@ -25,7 +26,7 @@ const contentStyle = {
   height: "100%"
 };
 
-function App({ user, fetchUserDetails }) {
+function App({ user, fetchUserDetails, fetchBoards }) {
   useEffect(() => {
     const cookies = new Cookies();
     const token = cookies.get("trelloc token");
@@ -37,6 +38,10 @@ function App({ user, fetchUserDetails }) {
 
     fetchUserDetails(token);
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn(user)) fetchBoards();
+  }, [user]);
 
   return (
     <div className="App">
@@ -54,6 +59,6 @@ const mapStateToProps = state => ({
   user: state.user
 });
 
-const mapDispatch = { fetchUserDetails };
+const mapDispatch = { fetchUserDetails, fetchBoards };
 
 export default connect(mapStateToProps, mapDispatch)(App);
