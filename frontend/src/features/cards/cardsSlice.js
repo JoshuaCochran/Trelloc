@@ -62,6 +62,27 @@ const cardsSlice = createSlice({
         });
       }
     },
+    renameCards: {
+      reducer(state, action) {
+        const { id, title } = action.payload;
+
+        state[id].title = title;
+
+        const data = {
+          listId: state[id].listId,
+          title: state[id].title,
+          position: state[id].position
+        };
+        axios.put("cards/" + id, data).catch(err => {
+          console.log("Error in reorderCards!");
+        });
+      },
+      prepare(id, title) {
+        return {
+          payload: { id: id, title: title }
+        };
+      }
+    },
     reorderCards: {
       reducer(state, action) {
         const {
@@ -148,7 +169,8 @@ export const {
   deleteCard,
   moveCard,
   moveCards,
-  reorderCards
+  reorderCards,
+  renameCards
 } = cardsSlice.actions;
 
 export default cardsSlice.reducer;

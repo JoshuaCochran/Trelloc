@@ -9,7 +9,12 @@ const CardList = ({ cards }) => {
           return a.position - b.position;
         })
         .map(card => (
-          <Card key={card.id} id={card.id} position={card.position} title={card.title} />
+          <Card
+            key={card.id}
+            id={card.id}
+            position={card.position}
+            title={card.title}
+          />
         ))}
     </div>
   );

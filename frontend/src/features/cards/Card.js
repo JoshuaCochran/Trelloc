@@ -3,6 +3,7 @@ import { Button } from "antd";
 import { Card as AntdCard } from "antd";
 import { Draggable } from "react-beautiful-dnd";
 import DeleteCardButton from "./DeleteCardButton";
+import RenameForm from "./RenameForm";
 
 const cardStyle = {
   borderRadius: "3px",
@@ -19,18 +20,18 @@ const bodyStyle = {
 };
 
 const buttonStyle = {
-  borderColor: "#ebecf0",
   color: "#5e6c84",
   textAlign: "left",
   boxShadow: "none",
-  float: "right",
   height: "14px",
   width: "14px",
-  borderColor: "transparent"
+  borderColor: "transparent",
+  marginRight: "4px"
 };
 
 const Card = ({ id, position, title }) => {
   const [buttonVisible, setButtonVisible] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
   return (
     <Draggable key={id} draggableId={id} index={position} type="CARD">
       {(provided, snapshot) => (
@@ -46,8 +47,31 @@ const Card = ({ id, position, title }) => {
             onMouseEnter={() => setButtonVisible(true)}
             onMouseLeave={() => setButtonVisible(false)}
           >
-            {title}
-            {buttonVisible ? <DeleteCardButton cardId={id} /> : null}
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {formVisible ? (
+                <RenameForm
+                  id={id}
+                  title={title}
+                  setFormVisible={setFormVisible}
+                />
+              ) : (
+                title
+              )}
+              {buttonVisible && !formVisible ? (
+                <div
+                  style={{
+                    marginLeft: "8px"
+                  }}
+                >
+                  <Button
+                    style={buttonStyle}
+                    icon="edit"
+                    onClick={() => setFormVisible(true)}
+                  />
+                  <DeleteCardButton cardId={id} />
+                </div>
+              ) : null}
+            </div>
           </AntdCard>
         </div>
       )}

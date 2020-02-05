@@ -1,7 +1,6 @@
 import React from "react";
-import { Layout, Button } from "antd";
+import { Button } from "antd";
 import { connect } from "react-redux";
-import { getTitle } from "../../selectors/BoardSelectors";
 import DeleteBoardButton from "./DeleteBoardButton";
 
 const headerStyle = {
@@ -29,7 +28,6 @@ const titleStyle = {
 };
 
 const BoardHeader = ({ id, boards }) => {
-    console.log(id)
   return (
     <div style={headerStyle}>
       <Button type="primary" style={titleStyle}>

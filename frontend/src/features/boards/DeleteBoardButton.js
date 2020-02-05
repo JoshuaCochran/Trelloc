@@ -41,7 +41,6 @@ const showReallyConfirm = (boardId, deleteBoard) => {
 };
 
 const DeleteBoardButton = ({ id, deleteBoard }) => {
-    console.log(id)
   return (
     <Button
       style={buttonStyle}

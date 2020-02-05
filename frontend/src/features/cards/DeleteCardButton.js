@@ -5,11 +5,9 @@ import { connect } from "react-redux";
 const { confirm } = Modal;
 
 const buttonStyle = {
-  borderColor: "#ebecf0",
   color: "#5e6c84",
   textAlign: "left",
   boxShadow: "none",
-  float: "right",
   height: "14px",
   width: "14px",
   borderColor: "transparent"
