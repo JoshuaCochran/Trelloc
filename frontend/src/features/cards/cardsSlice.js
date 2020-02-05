@@ -69,12 +69,10 @@ const cardsSlice = createSlice({
         state[id].title = title;
 
         const data = {
-          listId: state[id].listId,
-          title: state[id].title,
-          position: state[id].position
+          title: state[id].title
         };
         axios.put("cards/" + id, data).catch(err => {
-          console.log("Error in reorderCards!");
+          console.log("Error in renameCards!");
         });
       },
       prepare(id, title) {

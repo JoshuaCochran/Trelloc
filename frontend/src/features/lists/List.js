@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import CardList from "../cards/CardList";
 import AddCardButton from "../cards/AddCardButton";
 import ListOptionsDropDown from "./ListOptionsDropDown";
-import { Card } from "antd";
+import { Card, Button } from "antd";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import RenameListForm from "./RenameListForm";
 
 const listWrapper = {
   width: "272px",
@@ -52,15 +53,24 @@ const ellipsisStyle = {
   float: "right"
 };
 
-const List = ({
-  id,
-  title,
-  position,
-  cards
-}) => {
+const titleStyle = {
+  backgroundColor: "transparent",
+  fontWeight: "700",
+  lineHeight: "32px",
+  padding: 0,
+  textDecoration: "none",
+  maxWidth: "calc(100% - 24px)",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  height: "16px",
+  borderColor: "transparent"
+};
+
+const List = ({ id, title, position, cards }) => {
   const wrapperRef = useRef(null);
   const [isTopVisible, setIsTopVisible] = useState(false);
   const [isBotVisible, setIsBotVisible] = useState(false);
+  const [isFormVisible, setFormVisible] = useState(false);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside, false);
@@ -77,12 +87,7 @@ const List = ({
   };
 
   return (
-    <Draggable
-      key={id}
-      draggableId={id}
-      index={position}
-      type="LIST"
-    >
+    <Draggable key={id} draggableId={id} index={position} type="LIST">
       {(provided1, snapshot) => (
         <div
           ref={provided1.innerRef}
@@ -96,7 +101,20 @@ const List = ({
                   <Card style={cardStyle} bodyStyle={{ padding: "0 4px" }}>
                     <div style={listContent}>
                       <div style={listHeader}>
-                        {title}{" "}
+                        {isFormVisible ? (
+                          <RenameListForm
+                            id={id}
+                            title={title}
+                            setFormVisible={setFormVisible}
+                          />
+                        ) : (
+                          <Button
+                            style={titleStyle}
+                            onClick={() => setFormVisible(true)}
+                          >
+                            {title}
+                          </Button>
+                        )}
                         <ListOptionsDropDown
                           style={ellipsisStyle}
                           setIsVisible={setIsTopVisible}
@@ -120,9 +138,7 @@ const List = ({
                           overflowY: "scroll"
                         }}
                       >
-                        <CardList
-                          cards={cards}
-                        />
+                        <CardList cards={cards} />
                       </div>
                       <div style={buttonStyle}>
                         <AddCardButton

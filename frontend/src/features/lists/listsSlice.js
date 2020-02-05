@@ -52,6 +52,25 @@ const listsSlice = createSlice({
         });
       }
     },
+    renameList: {
+      reducer(state, action) {
+        const { id, title } = action.payload;
+
+        state[id].title = title;
+
+        const data = {
+          title: title
+        };
+        axios.put("lists/" + id, data).catch(err => {
+          console.log("Error in renameList!");
+        });
+      },
+      prepare(id, title) {
+        return {
+          payload: { id: id, title: title }
+        };
+      }
+    },
     moveList: {
       reducer(state, action) {
         const { listId, newPosition, newBoardId } = action.payload;
@@ -138,6 +157,7 @@ const listsSlice = createSlice({
 export const {
   addList,
   deleteList,
+  renameList,
   moveList,
   reorderLists
 } = listsSlice.actions;

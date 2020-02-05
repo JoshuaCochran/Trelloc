@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
 import DeleteBoardButton from "./DeleteBoardButton";
+import RenameBoardForm from "./RenameBoardForm";
 
 const headerStyle = {
   backgroundColor: "rgba(0,0,0,.24)",
@@ -28,14 +29,28 @@ const titleStyle = {
 };
 
 const BoardHeader = ({ id, boards }) => {
-  return (
+  const [formVisible, setFormVisible] = useState(false);
+
+  return boards[id] ? (
     <div style={headerStyle}>
-      <Button type="primary" style={titleStyle}>
-        {boards[id] ? boards[id].title : null}
+      <Button
+        type="primary"
+        style={titleStyle}
+        onClick={() => setFormVisible(true)}
+      >
+        {formVisible ? (
+          <RenameBoardForm
+            id={id}
+            title={boards[id].title}
+            setFormVisible={setFormVisible}
+          />
+        ) : (
+          boards[id].title
+        )}
       </Button>
       <DeleteBoardButton id={id} />
     </div>
-  );
+  ) : null;
 };
 
 const mapStateToProps = state => ({

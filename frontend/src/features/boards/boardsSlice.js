@@ -24,6 +24,25 @@ const boardsSlice = createSlice({
         });
       }
     },
+    renameBoard: {
+      reducer(state, action) {
+        const { id, title } = action.payload;
+
+        state[id].title = title;
+
+        const data = {
+          title: state[id].title
+        };
+        axios.put("boards/" + id, data).catch(err => {
+          console.log("Error in renameBoard!");
+        });
+      },
+      prepare(id, title) {
+        return {
+          payload: { id: id, title: title }
+        };
+      }
+    },
     setActive: {
       reducer(state, action) {
         Object.keys(state).forEach(key => {
@@ -38,7 +57,12 @@ const boardsSlice = createSlice({
   }
 });
 
-export const { addBoard, deleteBoard, setActive } = boardsSlice.actions;
+export const {
+  addBoard,
+  deleteBoard,
+  renameBoard,
+  setActive
+} = boardsSlice.actions;
 
 export default boardsSlice.reducer;
 
