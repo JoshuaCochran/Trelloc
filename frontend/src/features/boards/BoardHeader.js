@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
 import DeleteBoardButton from "./DeleteBoardButton";
@@ -30,9 +30,23 @@ const titleStyle = {
 
 const BoardHeader = ({ id, boards }) => {
   const [formVisible, setFormVisible] = useState(false);
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside, false);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setFormVisible(false);
+    }
+  };
 
   return boards[id] ? (
-    <div style={headerStyle}>
+    <div ref={wrapperRef} style={headerStyle}>
       <Button
         type="primary"
         style={titleStyle}

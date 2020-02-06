@@ -83,6 +83,7 @@ const List = ({ id, title, position, cards }) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setIsTopVisible(false);
       setIsBotVisible(false);
+      setFormVisible(false);
     }
   };
 
